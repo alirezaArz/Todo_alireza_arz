@@ -11,11 +11,12 @@ class MainGridlayout(GridLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.cols = 1
-
+        self.padding = dp(10)
+        self.spacing = dp(2)
         #نوت ها به تعداد به اینجا اضافه خواهند ش
         for i in range(100):
             add_todo = Button(text=f"add todo{i+1}")
-            add_todo.size_hint_x = 1
+            add_todo.size_x = 1
             add_todo.size_hint_y = None
             add_todo.size_y = dp(30)
             self.add_widget(add_todo)
@@ -24,7 +25,7 @@ class MainGridlayout(GridLayout):
 class Scrollmain(ScrollView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.pos_hint ={"x":0.01,"y":-.16}
+        self.pos_hint ={"x":0,"y":-.16}
         maingrid = MainGridlayout(size_hint=(1,None), pos_hint=(0.5, 0.01))
         maingrid.bind(minimum_height=maingrid.setter('height'))
         maingrid.height = maingrid.minimum_height
