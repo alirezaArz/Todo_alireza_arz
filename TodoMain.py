@@ -15,7 +15,14 @@ class MainGridlayout(GridLayout):
         self.padding = dp(10)
         self.spacing = dp(2)
         # here we define a function to add todos
-        add_todo = Button(text="add todo")
+        def make_new(instance):
+            todo=Label(text="done")
+            todo.size_x = 1
+            todo.size_hint_y = None
+            todo.size_y = dp(30)
+            self.add_widget(todo)
+
+        add_todo = Button(text="add todo", on_press=make_new)
         add_todo.size_x = 1
         add_todo.size_hint_y = None
         add_todo.size_y = dp(30)
@@ -35,9 +42,9 @@ class Scrollmain(ScrollView):
 class Mainscreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        bt1 = Button(text="Tags",size=(dp(85),dp(30)),size_hint=(None,None), pos_hint={"x":.40,"y":0.95})
-        bt2 = Button(text="not defined",size=(dp(85),dp(30)),size_hint=(None,None), pos_hint={"x":.52,"y":0.95})
-        bt3 = Button(text="setting",size=(dp(85),dp(30)),size_hint=(None,None),pos_hint={"right":1,"top":1})
+        bt1 = Button(text="Tags",size=(dp(85),dp(30)),size_hint=(None,None), pos_hint={"right":0.5,"top":0.90})
+        bt2 = Button(text="not defined",size=(dp(85),dp(30)),size_hint=(None,None), pos_hint={"right":0.62,"top":0.90})
+        bt3 = Button(text="setting",size=(dp(85),dp(30)),size_hint=(None,None),pos_hint={"right":0.99,"top":0.99})
         def go_sc1(instance):
             self.manager.current = 'first'
         def go_sc2(instance):
