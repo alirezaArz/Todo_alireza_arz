@@ -7,24 +7,25 @@ from kivy.metrics import dp
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.scrollview import ScrollView
 
-
-class Scrollmain(ScrollView):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        maingrid = MainGridlayout(size_hint=(0.5,None), pos_hint=(0.5, 0.01))
-        maingrid.bind(minimum_height=maingrid.setter('height'))
-        maingrid.height = maingrid.minimum_height
-        self.add_widget(maingrid)
-
-
-
 class MainGridlayout(GridLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.cols = 1
-        #نوت ها به تعداد به اینجا اضافه خواهند شد
-        add_todo = Button(text="add todo",size=(dp(785),dp(50)),size_hint=(None,None))
-        self.add_widget(add_todo)
+
+        #نوت ها به تعداد به اینجا اضافه خواهند ش
+        for i in range(10):
+            add_todo = Button(text=f"add todo{i+1}",size=(dp(785),dp(50)),size_hint=(None,None))
+            self.add_widget(add_todo)
+
+
+class Scrollmain(ScrollView):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.pos_hint ={"x":0.01,"y":-.16}
+        maingrid = MainGridlayout(size_hint=(0.5,None), pos_hint=(0.5, 0.01))
+        maingrid.bind(minimum_height=maingrid.setter('height'))
+        maingrid.height = maingrid.minimum_height
+        self.add_widget(maingrid)
 
 
 class Mainscreen(Screen):
@@ -41,7 +42,7 @@ class Mainscreen(Screen):
         self.add_widget(bt1)
         self.add_widget(bt2)
 
-        todo_scroll = Scrollmain(pos_hint={"x":.01,"y":0})
+        todo_scroll = Scrollmain(pos_hint={"x":.05,"y":0})
         self.add_widget(todo_scroll)
 
 
