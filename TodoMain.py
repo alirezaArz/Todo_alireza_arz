@@ -7,21 +7,21 @@ from kivy.metrics import dp
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.scrollview import ScrollView
 
+#main grid layout for main todos
 class MainGridlayout(GridLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.cols = 1
         self.padding = dp(10)
         self.spacing = dp(2)
-        #نوت ها به تعداد به اینجا اضافه خواهند ش
-        for i in range(100):
-            add_todo = Button(text=f"add todo{i+1}")
-            add_todo.size_x = 1
-            add_todo.size_hint_y = None
-            add_todo.size_y = dp(30)
-            self.add_widget(add_todo)
+        # here we define a function to add todos
+        add_todo = Button(text="add todo")
+        add_todo.size_x = 1
+        add_todo.size_hint_y = None
+        add_todo.size_y = dp(30)
+        self.add_widget(add_todo)
 
-
+# main grid layout's scroll feature
 class Scrollmain(ScrollView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -31,32 +31,48 @@ class Scrollmain(ScrollView):
         maingrid.height = maingrid.minimum_height
         self.add_widget(maingrid)
 
-
+# main screen
 class Mainscreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        bt1 = Button(text="go to page 1",size=(dp(85),dp(30)),size_hint=(None,None), pos_hint={"x":.40,"y":0.95})
-        bt2 = Button(text="go to page 2",size=(dp(85),dp(30)),size_hint=(None,None), pos_hint={"x":.52,"y":0.95})
+        bt1 = Button(text="Tags",size=(dp(85),dp(30)),size_hint=(None,None), pos_hint={"x":.40,"y":0.95})
+        bt2 = Button(text="not defined",size=(dp(85),dp(30)),size_hint=(None,None), pos_hint={"x":.52,"y":0.95})
+        bt3 = Button(text="setting",size=(dp(85),dp(30)),size_hint=(None,None),pos_hint={"right":1,"top":1})
         def go_sc1(instance):
             self.manager.current = 'first'
         def go_sc2(instance):
             self.manager.current = 'second'
+        def go_sc3(instance):
+            self.manager.current = 'setting'
+
         bt1.bind(on_press=go_sc1)
         bt2.bind(on_press=go_sc2)
+        bt3.bind(on_press=go_sc3)
         self.add_widget(bt1)
         self.add_widget(bt2)
+        self.add_widget(bt3)
 
         todo_scroll = Scrollmain(size=(1,1),pos=(.05,0))
         self.add_widget(todo_scroll)
 
-
-
-
-
-class First_screen(Screen):
+# setting management
+class Settingscreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.add_widget(Label(text="First Screen"))
+        super().__init__(**kwargs)
+        self.add_widget(Label(text="setting"))
+        bt1 = Button(text="go back")
+        def goback(instance):
+            self.manager.current = 'main'
+        bt1.bind(on_press=goback)
+        self.add_widget(bt1)
+
+
+# tag screen
+class Tagscreen(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.add_widget(Label(text="tag screen"))
         bt1 = Button(text="go back")
         def goback(instance):
             self.manager.current = 'main'
@@ -78,8 +94,9 @@ class Mainapp(App):
     def build(self):
         sm = ScreenManager()
         sm.add_widget(Mainscreen(name="main"))
-        sm.add_widget(First_screen(name="first"))
+        sm.add_widget(Tagscreen(name="first"))
         sm.add_widget(Second_screen(name="second"))
+        sm.add_widget(Settingscreen(name="setting"))
         return sm
 
 if __name__ == "__main__":
