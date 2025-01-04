@@ -6,6 +6,9 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.metrics import dp
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.scrollview import ScrollView
+from kivy.uix.screenmanager import Screen
+from kivy.graphics import Rectangle, Color
+
 
 #main grid layout for main todos
 class MainGridlayout(GridLayout):
@@ -21,8 +24,7 @@ class MainGridlayout(GridLayout):
             todo.size_hint_y = None
             todo.size_y = dp(30)
             self.add_widget(todo)
-
-        add_todo = Button(text="add todo", on_press=make_new)
+        add_todo = Button(text="add todo", on_press=make_new, background_color = (0.235,.522, .486,1),background_normal = ""  )
         add_todo.size_x = 1
         add_todo.size_hint_y = None
         add_todo.size_y = dp(30)
@@ -42,9 +44,21 @@ class Scrollmain(ScrollView):
 class Mainscreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        bt1 = Button(text="Tags",size=(dp(85),dp(30)),size_hint=(None,None), pos_hint={"right":0.5,"top":0.90})
-        bt2 = Button(text="not defined",size=(dp(85),dp(30)),size_hint=(None,None), pos_hint={"right":0.62,"top":0.90})
-        bt3 = Button(text="setting",size=(dp(85),dp(30)),size_hint=(None,None),pos_hint={"right":0.99,"top":0.99})
+
+        with self.canvas:
+            # screen color managment
+            Color(0.280,0.450,0.454,0.700)
+
+            self.rect = Rectangle(size=self.size, pos=self.pos)
+        self.bind(size=self._update_rect, pos=self._update_rect)
+
+    def _update_rect(self, *args):
+        self.rect.size = self.size
+        self.rect.pos = self.pos
+
+        bt1 = Button(text="Tags",size=(dp(85),dp(30)),size_hint=(None,None), pos_hint={"right":0.46,"top":0.90},background_color = (0.235,.522, .486,1),background_normal = ""  )
+        bt2 = Button(text="not defined",size=(dp(85),dp(30)),size_hint=(None,None), pos_hint={"right":0.64,"top":0.90},background_color = (0.235,.522, .486,1),background_normal = ""  )
+        bt3 = Button(text="setting",size=(dp(85),dp(30)),size_hint=(None,None),pos_hint={"right":0.99,"top":0.99},background_color = (0.235,.522, .486,1),background_normal = ""  )
         def go_sc1(instance):
             self.manager.current = 'first'
         def go_sc2(instance):
@@ -61,6 +75,7 @@ class Mainscreen(Screen):
 
         todo_scroll = Scrollmain(size=(1,1),pos=(.05,0))
         self.add_widget(todo_scroll)
+
 
 # setting management
 class Settingscreen(Screen):
