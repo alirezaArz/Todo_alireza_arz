@@ -83,6 +83,7 @@ class Mainscreen(Screen):
             app.sm.add_widget(Settingscreen(name='setting'))
             self.manager.current = 'setting'
 
+
         bt1.bind(on_press=go_sc1)
         bt2.bind(on_press=go_sc2)
         bt3.bind(on_press=go_sc3)
