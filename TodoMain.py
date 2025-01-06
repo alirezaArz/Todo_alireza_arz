@@ -1,4 +1,5 @@
 from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
@@ -8,6 +9,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.screenmanager import Screen
 from kivy.graphics import Rectangle, Color
+from kivy.uix.stacklayout import StackLayout
 
 
 #main grid layout for main todos
@@ -16,14 +18,20 @@ class MainGridlayout(GridLayout):
         super().__init__(**kwargs)
         self.cols = 1
         self.padding = dp(10)
-        self.spacing = dp(2)
+        self.spacing = dp(1)
         # here we define a function to add todos
         def make_new(instance):
-            todo=Label(text="done")
-            todo.size_x = 1
-            todo.size_hint_y = None
-            todo.size_y = dp(30)
-            self.add_widget(todo)
+
+            made_layout = BoxLayout()
+            made_layout.add_widget(Button(text="done",size_hint=(.2,.8)))
+            made_layout.add_widget(Button(text="todo",size_hint=(1,.8)))
+            made_layout.size_x = 1
+            made_layout.size_hint_y = None
+            made_layout.size_y = dp(.5)
+            self.add_widget(made_layout)
+
+
+
         add_todo = Button(text="add todo", on_press=make_new, background_color = (0.235,.522, .486,1),background_normal = ""  )
         add_todo.size_x = 1
         add_todo.size_hint_y = None
@@ -60,10 +68,19 @@ class Mainscreen(Screen):
         bt2 = Button(text="not defined",size=(dp(85),dp(30)),size_hint=(None,None), pos_hint={"right":0.64,"top":0.90},background_color = (0.235,.522, .486,1),background_normal = ""  )
         bt3 = Button(text="setting",size=(dp(85),dp(30)),size_hint=(None,None),pos_hint={"right":0.99,"top":0.99},background_color = (0.235,.522, .486,1),background_normal = ""  )
         def go_sc1(instance):
+            app = App.get_running_app()
+            app.sm.remove_widget(app.sm.get_screen('first'))
+            app.sm.add_widget(Tagscreen(name='first'))
             self.manager.current = 'first'
         def go_sc2(instance):
+            app = App.get_running_app()
+            app.sm.remove_widget(app.sm.get_screen('second'))
+            app.sm.add_widget(Second_screen(name='second'))
             self.manager.current = 'second'
         def go_sc3(instance):
+            app = App.get_running_app()
+            app.sm.remove_widget(app.sm.get_screen('setting'))
+            app.sm.add_widget(Settingscreen(name='setting'))
             self.manager.current = 'setting'
 
         bt1.bind(on_press=go_sc1)
@@ -83,8 +100,11 @@ class Settingscreen(Screen):
         super().__init__(**kwargs)
         super().__init__(**kwargs)
         self.add_widget(Label(text="setting"))
-        bt1 = Button(text="go back")
+        bt1 = Button(text="go back",size=(dp(100),dp(50)),size_hint=(None,None), pos_hint={"right":1,"top":1},background_color = (0.235,.522, .486,1),background_normal = "")
         def goback(instance):
+            app = App.get_running_app()
+            app.sm.remove_widget(app.sm.get_screen('main'))
+            app.sm.add_widget(Mainscreen(name='main'))
             self.manager.current = 'main'
         bt1.bind(on_press=goback)
         self.add_widget(bt1)
@@ -95,8 +115,11 @@ class Tagscreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.add_widget(Label(text="tag screen"))
-        bt1 = Button(text="go back")
+        bt1 = Button(text="go back",size=(dp(100),dp(50)),size_hint=(None,None), pos_hint={"right":1,"top":1},background_color = (0.235,.522, .486,1),background_normal = "")
         def goback(instance):
+            app = App.get_running_app()
+            app.sm.remove_widget(app.sm.get_screen('main'))
+            app.sm.add_widget(Mainscreen(name='main'))
             self.manager.current = 'main'
         bt1.bind(on_press=goback)
         self.add_widget(bt1)
@@ -106,20 +129,23 @@ class Second_screen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.add_widget(Label(text="Second Screen"))
-        bt1 = Button(text="go back")
+        bt1 = Button(text="go back",size=(dp(100),dp(50)),size_hint=(None,None), pos_hint={"right":1,"top":1},background_color = (0.235,.522, .486,1),background_normal = "")
         def goback(instance):
+            app = App.get_running_app()
+            app.sm.remove_widget(app.sm.get_screen('main'))
+            app.sm.add_widget(Mainscreen(name='main'))
             self.manager.current = 'main'
         bt1.bind(on_press=goback)
         self.add_widget(bt1)
 
 class Mainapp(App):
     def build(self):
-        sm = ScreenManager()
-        sm.add_widget(Mainscreen(name="main"))
-        sm.add_widget(Tagscreen(name="first"))
-        sm.add_widget(Second_screen(name="second"))
-        sm.add_widget(Settingscreen(name="setting"))
-        return sm
+        self.sm = ScreenManager()
+        self.sm.add_widget(Mainscreen(name="main"))
+        self.sm.add_widget(Tagscreen(name="first"))
+        self.sm.add_widget(Second_screen(name="second"))
+        self.sm.add_widget(Settingscreen(name="setting"))
+        return self.sm
 
 
 if __name__ == "__main__":
