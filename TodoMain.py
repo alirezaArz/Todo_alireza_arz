@@ -24,6 +24,7 @@ class MainGridlayout(GridLayout):
         self.add_widget(Label(text="New Task"))
 
 
+
 # main grid layout's scroll feature
 class Scrollmain(ScrollView):
     def __init__(self, **kwargs):
