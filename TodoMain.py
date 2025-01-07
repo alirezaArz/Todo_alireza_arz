@@ -28,7 +28,8 @@ class MainGridlayout(GridLayout):
 class Scrollmain(ScrollView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.pos_hint ={"x":0,"y":-.16}
+        self.size_hint = (1,0.6)
+        self.pos_hint ={"x":0,"y":0.1}
         self.maingrid = MainGridlayout(size_hint=(1,None), pos_hint=(0.5, 0.01))
         self.maingrid.bind(minimum_height=self.maingrid.setter('height'))
         self.maingrid.height = self.maingrid.minimum_height
@@ -82,7 +83,7 @@ class Mainscreen(Screen):
         self.add_widget(bt2)
         self.add_widget(bt3)
 
-        self.todo_scroll = Scrollmain(size=(1,1),pos=(.05,0))
+        self.todo_scroll = Scrollmain()
         self.add_widget(self.todo_scroll)
         self.add_widget(add_todo)
 
