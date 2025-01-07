@@ -56,7 +56,6 @@ class Scrollmain(ScrollView):
 class Mainscreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
         with self.canvas:
             # screen color managment
             Color(0.280,0.450,0.454,0.700)
@@ -67,13 +66,13 @@ class Mainscreen(Screen):
         self.rect.size = self.size
         self.rect.pos = self.pos
 
-        def addnumber(instance):
+        def addtodo(instance):
             self.todo_scroll.maingrid.addnew()
 
         bt1 = Button(text="Tags",size=(dp(100),dp(40)),size_hint=(None,None), pos_hint={"right":0.72,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
         bt2 = Button(text="not defined",size=(dp(100),dp(40)),size_hint=(None,None), pos_hint={"right":0.85,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
         bt3 = Button(text="setting",size=(dp(100),dp(40)),size_hint=(None,None),pos_hint={"right":0.98,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
-        add_todo = Button(text="+",font_size='100sp',size=(dp(74),dp(70)),size_hint=(None,None),pos_hint={"right":0.98,"top":0.90}, background_color = 'darkcyan',background_normal = "",on_press=addnumber  )
+        add_todo = Button(text="+",font_size='100sp',size=(dp(74),dp(70)),size_hint=(None,None),pos_hint={"right":0.98,"top":0.90}, background_color = 'darkcyan',background_normal = "",on_press=addtodo  )
 
 
 
@@ -107,7 +106,17 @@ class Mainscreen(Screen):
 class Todoesultscreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.add_widget(Label(text="Second Screen"))
+        with self.canvas:
+            # screen color managment
+            Color(0.280, 0.450, 0.454, 0.700)
+
+            self.rect = Rectangle(size=self.size, pos=self.pos)
+        self.bind(size=self._update_rect, pos=self._update_rect)
+
+    def _update_rect(self, *args):
+        self.rect.size = self.size
+        self.rect.pos = self.pos
+
         bt1 = Button(text="go back", size=(dp(100), dp(50)), size_hint=(None, None), pos_hint={"right": 1, "top": 1},
                      background_color=(0.235, .522, .486, 1), background_normal="")
 
@@ -128,8 +137,16 @@ class Todoesultscreen(Screen):
 class Settingscreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        super().__init__(**kwargs)
-        self.add_widget(Label(text="setting"))
+        with self.canvas:
+            # screen color managment
+            Color(0.280, 0.450, 0.454, 0.700)
+
+            self.rect = Rectangle(size=self.size, pos=self.pos)
+        self.bind(size=self._update_rect, pos=self._update_rect)
+
+    def _update_rect(self, *args):
+        self.rect.size = self.size
+        self.rect.pos = self.pos
         bt1 = Button(text="go back",size=(dp(100),dp(50)),size_hint=(None,None), pos_hint={"right":1,"top":1},background_color = (0.235,.522, .486,1),background_normal = "")
         def goback(instance):
             app = App.get_running_app()
@@ -143,6 +160,16 @@ class Settingscreen(Screen):
 class Tagscreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        with self.canvas:
+            # screen color managment
+            Color(0.280, 0.450, 0.454, 0.700)
+
+            self.rect = Rectangle(size=self.size, pos=self.pos)
+        self.bind(size=self._update_rect, pos=self._update_rect)
+
+    def _update_rect(self, *args):
+        self.rect.size = self.size
+        self.rect.pos = self.pos
 
         bt1 = Button(text="go back", size_hint=(None, None), size=(dp(100), dp(50)),
                      pos_hint={"right": 1, "top": 1},
@@ -186,7 +213,17 @@ class Taggrid(GridLayout):
 class Second_screen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.add_widget(Label(text="Second Screen"))
+        with self.canvas:
+            # screen color managment
+            Color(0.280, 0.450, 0.454, 0.700)
+
+            self.rect = Rectangle(size=self.size, pos=self.pos)
+        self.bind(size=self._update_rect, pos=self._update_rect)
+
+    def _update_rect(self, *args):
+        self.rect.size = self.size
+        self.rect.pos = self.pos
+
         bt1 = Button(text="go back",size=(dp(100),dp(50)),size_hint=(None,None), pos_hint={"right":1,"top":1},background_color = (0.235,.522, .486,1),background_normal = "")
         def goback(instance):
             app = App.get_running_app()
