@@ -1,16 +1,22 @@
-class ClassA:
-    def greet(self):
-        print("Hello from ClassA!")
+from kivy.app import App
+from kivy.uix.button import Button
+from kivy.metrics import dp
+
+class HGFHH(Button):
+    button = Button(
+        text="Rounded Button",
+        size_hint=(None, None),
+        size=(dp(15), dp(15)),
+        background_normal='',  # حذف تصویر پیش‌فرض
+        background_color=(0.3, 0.6, 0.9, 1),  # رنگ دلخواه
+    )
+    button.border = [50, 50, 50, 50]  # تنظیم گردی گوشه‌ها
 
 
-class ClassB:
-    def __init__(self, class_a_instance):
-        self.class_a_instance = class_a_instance
 
-    def call_class_a(self):
-        self.class_a_instance.greet()
+class mainapp(App):
+    def build(self):
+        return HGFHH()
 
-
-a = ClassA()
-b = ClassB(a)
-b.call_class_a()
+if __name__ == '__main__':
+    mainapp().run()
