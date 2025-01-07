@@ -1,3 +1,4 @@
+from docutils.utils import release_level_abbreviations
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -18,18 +19,9 @@ class MainGridlayout(GridLayout):
         super().__init__(**kwargs)
         self.cols = 1
         self.padding = dp(10)
-        self.spacing = dp(1)
-        # here we define a function to add todos
-        def make_new():
-
-            made_layout = BoxLayout()
-            made_layout.add_widget(Button(text="done",size_hint=(.1,.8)))
-            made_layout.add_widget(Button(text="todo",size_hint=(1,.8)))
-            made_layout.size_x = 1
-            made_layout.size_hint_y = None
-            made_layout.size_y = dp(.5)
-            self.add_widget(made_layout)
-        self.make_new = make_new
+        self.spacing = dp(50)
+    def addnew(self):
+        self.add_widget(Label(text="New Task"))
 
 
 # main grid layout's scroll feature
@@ -37,10 +29,10 @@ class Scrollmain(ScrollView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.pos_hint ={"x":0,"y":-.16}
-        maingrid = MainGridlayout(size_hint=(1,None), pos_hint=(0.5, 0.01))
-        maingrid.bind(minimum_height=maingrid.setter('height'))
-        maingrid.height = maingrid.minimum_height
-        self.add_widget(maingrid)
+        self.maingrid = MainGridlayout(size_hint=(1,None), pos_hint=(0.5, 0.01))
+        self.maingrid.bind(minimum_height=self.maingrid.setter('height'))
+        self.maingrid.height = self.maingrid.minimum_height
+        self.add_widget(self.maingrid)
 
 # main screen
 class Mainscreen(Screen):
@@ -57,15 +49,14 @@ class Mainscreen(Screen):
         self.rect.size = self.size
         self.rect.pos = self.pos
 
+        def addnumber(instance):
+            self.todo_scroll.maingrid.addnew()
+
+
         bt1 = Button(text="Tags",size=(dp(85),dp(30)),size_hint=(None,None), pos_hint={"right":0.46,"top":0.90},background_color = (0.235,.522, .486,1),background_normal = ""  )
         bt2 = Button(text="not defined",size=(dp(85),dp(30)),size_hint=(None,None), pos_hint={"right":0.64,"top":0.90},background_color = (0.235,.522, .486,1),background_normal = ""  )
         bt3 = Button(text="setting",size=(dp(100),dp(40)),size_hint=(None,None),pos_hint={"right":0.99,"top":0.99},background_color = (0.235,.522, .486,1),background_normal = ""  )
-
-        add_todo = Button(text="add todo",size=(dp(100),dp(40)),size_hint=(None,None),pos_hint={"right":0.50,"top":0.99}, background_color = (0.235,.522, .486,1),background_normal = ""  )
-        add_todo.bind(onpress=MainGridlayout.make_new)
-        self.add_widget(add_todo)
-
-
+        add_todo = Button(text="+",font_size='120sp',size=(dp(70),dp(70)),size_hint=(None,None),pos_hint={"right":0.96,"top":0.18}, background_color = (0.235,.522, .486,1),background_normal = "",on_press=addnumber  )
 
         def go_sc1(instance):
             app = App.get_running_app()
@@ -91,8 +82,9 @@ class Mainscreen(Screen):
         self.add_widget(bt2)
         self.add_widget(bt3)
 
-        todo_scroll = Scrollmain(size=(1,1),pos=(.05,0))
-        self.add_widget(todo_scroll)
+        self.todo_scroll = Scrollmain(size=(1,1),pos=(.05,0))
+        self.add_widget(self.todo_scroll)
+        self.add_widget(add_todo)
 
 
 # setting management
