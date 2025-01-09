@@ -36,17 +36,12 @@ class MainGridlayout(GridLayout):
         self.screen_manager.add_widget(Todoesultscreen(name='todoresult'))
         self.screen_manager.current = 'todoresult'
 
-
-
-
-
 # main grid layout's scroll feature
 class Scrollmain(ScrollView):
     def __init__(self, screen_manager, **kwargs):
         super().__init__(**kwargs)
         self.size_hint = (1, 0.72)
         self.pos_hint = {"x": 0, "y": 0.1}
-        # پاس دادن screen_manager به MainGridlayout
         self.maingrid = MainGridlayout(screen_manager, size_hint=(1, None), pos_hint=(0.5, 0.01))
         self.maingrid.bind(minimum_height=self.maingrid.setter('height'))
         self.maingrid.height = self.maingrid.minimum_height
@@ -56,6 +51,7 @@ class Scrollmain(ScrollView):
 class Mainscreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        #apearence
         with self.canvas:
             # screen color managment
             Color(0.280,0.450,0.454,0.700)
@@ -66,15 +62,18 @@ class Mainscreen(Screen):
         self.rect.size = self.size
         self.rect.pos = self.pos
 
-        def addtodo(instance):
-            self.todo_scroll.maingrid.addnew()
+        #the function for making a new page of todo---
+        def go_todoresultt(instance):
+            app = App.get_running_app()
+            app.sm.remove_widget(app.sm.get_screen('todoresult'))
+            app.sm.add_widget(Todoesultscreen(name='todoresult'))
+            self.manager.current = 'todoresult'
+
 
         bt1 = Button(text="Tags",size=(dp(100),dp(40)),size_hint=(None,None), pos_hint={"right":0.72,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
         bt2 = Button(text="not defined",size=(dp(100),dp(40)),size_hint=(None,None), pos_hint={"right":0.85,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
         bt3 = Button(text="setting",size=(dp(100),dp(40)),size_hint=(None,None),pos_hint={"right":0.98,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
-        add_todo = Button(text="+",font_size='100sp',size=(dp(74),dp(70)),size_hint=(None,None),pos_hint={"right":0.98,"top":0.90}, background_color = 'darkcyan',background_normal = "",on_press=addtodo  )
-
-
+        add_todo = Button(text="+",font_size='100sp',size=(dp(74),dp(70)),size_hint=(None,None),pos_hint={"right":0.98,"top":0.90}, background_color = 'darkcyan',background_normal = "",on_press=go_todoresultt  )
 
         def go_sc1(instance):
             app = App.get_running_app()
