@@ -101,6 +101,7 @@ class Mainscreen(Screen):
         self.add_widget(self.todo_scroll)
         self.add_widget(add_todo)
 
+
 # todos result screen--------------------------------------------------------------------------------------
 class Todoesultscreen(Screen):
     def __init__(self, **kwargs):
@@ -112,24 +113,17 @@ class Todoesultscreen(Screen):
             self.rect = Rectangle(size=self.size, pos=self.pos)
         self.bind(size=self._update_rect, pos=self._update_rect)
 
+    def goback(self,instance):
+        app = App.get_running_app()
+        app.sm.remove_widget(app.sm.get_screen('main'))
+        app.sm.add_widget(Mainscreen(name='main'))
+        self.manager.current = 'main'
+
+
     def _update_rect(self, *args):
         self.rect.size = self.size
         self.rect.pos = self.pos
-
-        bt1 = Button(text="go back", size=(dp(100), dp(50)), size_hint=(None, None), pos_hint={"right": 1, "top": 1},
-                     background_color=(0.235, .522, .486, 1), background_normal="")
-
-        def goback(instance):
-            app = App.get_running_app()
-            app.sm.remove_widget(app.sm.get_screen('main'))
-            app.sm.add_widget(Mainscreen(name='main'))
-            self.manager.current = 'main'
-
-        bt1.bind(on_press=goback)
-        self.add_widget(bt1)
-
-
-
+        self.add_widget(Button(text="go back",on_press=self.goback, size=(dp(100), dp(50)), size_hint=(None, None), pos_hint={"right": 1, "top": 1},background_color=(0.235, .522, .486, 1), background_normal=""))
 
 
 # setting management-----------------------------------------------------------------------------------------
@@ -170,10 +164,7 @@ class Tagscreen(Screen):
         self.rect.size = self.size
         self.rect.pos = self.pos
 
-        bt1 = Button(text="go back", size_hint=(None, None), size=(dp(100), dp(50)),
-                     pos_hint={"right": 1, "top": 1},
-                     background_color=(0.235, 0.522, 0.486, 1),
-                     background_normal="")
+        bt1 = Button(text="go back", size_hint=(None, None), size=(dp(100), dp(50)),pos_hint={"right": 1, "top": 1},background_color=(0.235, 0.522, 0.486, 1),background_normal="")
         def goback(instance):
             app = App.get_running_app()
             app.sm.remove_widget(app.sm.get_screen('main'))
