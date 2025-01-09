@@ -134,17 +134,21 @@ class Todoresultscreen(Screen):
                                   size=(dp(500), dp(40)), size_hint=(None, None), background_color='aquamarine',background_normal="",multiline=False))
 
         self.add_widget(TextInput(hint_text="Enter the description",halign='center', font_size='20sp', pos_hint={"right": 0.64, "top": 0.85},
-                                  size=(dp(500), dp(430)), size_hint=(None, None), background_color='aquamarine',background_normal="", multiline=True))
+                                  size=(dp(500), dp(430)), size_hint=(None, None), background_color='turquoise',background_normal="", multiline=True))
         self.add_widget(
             TextInput(hint_text="Date example: 00/00/00 ", font_size='17sp', pos_hint={"right": 0.95, "top": 0.72},
-                      size=(dp(200), dp(38)), size_hint=(None, None), background_color='aquamarine',background_normal="", multiline=False))
+                      size=(dp(200), dp(38)), size_hint=(None, None), background_color='paleturquoise',background_normal="", multiline=False))
 
         self.add_widget(TextInput(hint_text=" Time example: 00:00:00 ", font_size='17sp',
-                                  pos_hint={"right": 0.95, "top": 0.80},size=(dp(200), dp(38)), size_hint=(None, None), background_color='aquamarine',background_normal="", multiline=False))
+                                  pos_hint={"right": 0.95, "top": 0.80},size=(dp(200), dp(38)), size_hint=(None, None), background_color='paleturquoise',background_normal="", multiline=False))
         self.add_widget(
             Label(text="Enter the date and time ",color='aquamarine', font_size='20sp', pos_hint={"right": 0.95, "top": 0.86},
                       size=(dp(200), dp(38)), size_hint=(None, None)))
+        self.add_widget(Label(text="Enter the tag/tags", color='aquamarine',
+                              font_size='20sp',pos_hint={"right": 0.95, "top": 0.62},size=(dp(200), dp(38)), size_hint=(None, None)))
 
+        self.add_widget(TextInput(hint_text="existing tags : ",font_size='20sp',
+                                  pos_hint={"right": 0.97, "top": 0.55},size=(dp(250), dp(250)), size_hint=(None, None), background_color='aquamarine',background_normal="", multiline=True))
 
 
 # setting management-----------------------------------------------------------------------------------------
