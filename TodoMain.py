@@ -11,6 +11,7 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.screenmanager import Screen
 from kivy.graphics import Rectangle, Color
 from kivy.uix.stacklayout import StackLayout
+from kivy.uix.textinput import TextInput
 
 #main grid layout for main todos----------------------------------------------------------------------------------
 class MainGridlayout(GridLayout):
@@ -33,7 +34,7 @@ class MainGridlayout(GridLayout):
 
     def go_todoresult(self, instance):
         self.screen_manager.remove_widget(self.screen_manager.get_screen('todoresult'))
-        self.screen_manager.add_widget(Todoesultscreen(name='todoresult'))
+        self.screen_manager.add_widget(Todoresultscreen(name='todoresult'))
         self.screen_manager.current = 'todoresult'
 
 # main grid layout's scroll feature
@@ -66,7 +67,7 @@ class Mainscreen(Screen):
         def go_todoresultt(instance):
             app = App.get_running_app()
             app.sm.remove_widget(app.sm.get_screen('todoresult'))
-            app.sm.add_widget(Todoesultscreen(name='todoresult'))
+            app.sm.add_widget(Todoresultscreen(name='todoresult'))
             self.manager.current = 'todoresult'
 
 
@@ -103,7 +104,7 @@ class Mainscreen(Screen):
 
 
 # todos result screen--------------------------------------------------------------------------------------
-class Todoesultscreen(Screen):
+class Todoresultscreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         with self.canvas:
@@ -123,7 +124,27 @@ class Todoesultscreen(Screen):
     def _update_rect(self, *args):
         self.rect.size = self.size
         self.rect.pos = self.pos
-        self.add_widget(Button(text="go back",on_press=self.goback, size=(dp(100), dp(50)), size_hint=(None, None), pos_hint={"right": 1, "top": 1},background_color=(0.235, .522, .486, 1), background_normal=""))
+        self.add_widget(Button(text="go back",on_press=self.goback, size=(dp(100), dp(50)), size_hint=(None, None),
+                               pos_hint={"right": 1, "top": 0.99},background_color='darkcyan', background_normal=""))
+
+        self.add_widget(Button(text="save", on_press=self.goback, size=(dp(80), dp(40)), size_hint=(None, None),
+                               pos_hint={"right": 0.55, "top": 0.1}, background_color='darkcyan',background_normal=""))
+
+        self.add_widget(TextInput(hint_text="Enter the Label",halign='center',font_size='20sp',pos_hint={"right": 0.80, "top": 0.98},
+                                  size=(dp(500), dp(40)), size_hint=(None, None), background_color='aquamarine',background_normal="",multiline=False))
+
+        self.add_widget(TextInput(hint_text="Enter the description",halign='center', font_size='20sp', pos_hint={"right": 0.64, "top": 0.85},
+                                  size=(dp(500), dp(430)), size_hint=(None, None), background_color='aquamarine',background_normal="", multiline=True))
+        self.add_widget(
+            TextInput(hint_text="Date example: 00/00/00 ", font_size='17sp', pos_hint={"right": 0.95, "top": 0.72},
+                      size=(dp(200), dp(38)), size_hint=(None, None), background_color='aquamarine',background_normal="", multiline=False))
+
+        self.add_widget(TextInput(hint_text=" Time example: 00:00:00 ", font_size='17sp',
+                                  pos_hint={"right": 0.95, "top": 0.80},size=(dp(200), dp(38)), size_hint=(None, None), background_color='aquamarine',background_normal="", multiline=False))
+        self.add_widget(
+            Label(text="Enter the date and time ",color='aquamarine', font_size='20sp', pos_hint={"right": 0.95, "top": 0.86},
+                      size=(dp(200), dp(38)), size_hint=(None, None)))
+
 
 
 # setting management-----------------------------------------------------------------------------------------
@@ -140,7 +161,7 @@ class Settingscreen(Screen):
     def _update_rect(self, *args):
         self.rect.size = self.size
         self.rect.pos = self.pos
-        bt1 = Button(text="go back",size=(dp(100),dp(50)),size_hint=(None,None), pos_hint={"right":1,"top":1},background_color = (0.235,.522, .486,1),background_normal = "")
+        bt1 = Button(text="go back",size=(dp(100),dp(50)),size_hint=(None,None), pos_hint={"right":1,"top":0.99},background_color = (0.235,.522, .486,1),background_normal = "")
         def goback(instance):
             app = App.get_running_app()
             app.sm.remove_widget(app.sm.get_screen('main'))
@@ -164,7 +185,7 @@ class Tagscreen(Screen):
         self.rect.size = self.size
         self.rect.pos = self.pos
 
-        bt1 = Button(text="go back", size_hint=(None, None), size=(dp(100), dp(50)),pos_hint={"right": 1, "top": 1},background_color=(0.235, 0.522, 0.486, 1),background_normal="")
+        bt1 = Button(text="go back", size_hint=(None, None), size=(dp(100), dp(50)),pos_hint={"right": 1, "top": 0.99},background_color=(0.235, 0.522, 0.486, 1),background_normal="")
         def goback(instance):
             app = App.get_running_app()
             app.sm.remove_widget(app.sm.get_screen('main'))
@@ -214,7 +235,7 @@ class Second_screen(Screen):
         self.rect.size = self.size
         self.rect.pos = self.pos
 
-        bt1 = Button(text="go back",size=(dp(100),dp(50)),size_hint=(None,None), pos_hint={"right":1,"top":1},background_color = (0.235,.522, .486,1),background_normal = "")
+        bt1 = Button(text="go back",size=(dp(100),dp(50)),size_hint=(None,None), pos_hint={"right":1,"top":0.99},background_color = (0.235,.522, .486,1),background_normal = "")
         def goback(instance):
             app = App.get_running_app()
             app.sm.remove_widget(app.sm.get_screen('main'))
@@ -232,7 +253,7 @@ class Mainapp(App):
         self.sm.add_widget(Tagscreen(name="first"))
         self.sm.add_widget(Second_screen(name="second"))
         self.sm.add_widget(Settingscreen(name="setting"))
-        self.sm.add_widget(Todoesultscreen(name="todoresult"))
+        self.sm.add_widget(Todoresultscreen(name="todoresult"))
         return self.sm
 
 if __name__ == "__main__":
