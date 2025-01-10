@@ -1,4 +1,3 @@
-from docutils.utils import release_level_abbreviations
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -72,8 +71,8 @@ class Mainscreen(Screen):
 
 
         bt1 = Button(text="Tags",size=(dp(100),dp(40)),size_hint=(None,None), pos_hint={"right":0.72,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
-        bt2 = Button(text="not defined",size=(dp(100),dp(40)),size_hint=(None,None), pos_hint={"right":0.85,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
-        bt3 = Button(text="setting",size=(dp(100),dp(40)),size_hint=(None,None),pos_hint={"right":0.98,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
+        bt2 = Button(text="Notes",size=(dp(100),dp(40)),size_hint=(None,None), pos_hint={"right":0.85,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
+        bt3 = Button(text="Setting",size=(dp(100),dp(40)),size_hint=(None,None),pos_hint={"right":0.98,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
         add_todo = Button(text="+",font_size='100sp',size=(dp(74),dp(70)),size_hint=(None,None),pos_hint={"right":0.98,"top":0.90}, background_color = 'darkcyan',background_normal = "",on_press=go_todoresultt  )
 
         def go_sc1(instance):
