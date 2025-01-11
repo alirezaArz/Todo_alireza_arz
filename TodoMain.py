@@ -89,12 +89,10 @@ class Mainscreen(Screen):
             self.manager.current = 'todoresult'
 
 
-        bt1 = Button(text="Tags",size=(dp(100),dp(40)),size_hint=(None,None), pos_hint={"right":0.98,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
-        bt2 = Button(text="Notes",size=(dp(200),dp(50)),size_hint=(None,None), pos_hint={"right":0.82,"top":0.97},background_color = 'darkcyan',background_normal = ""  )
+        bt1 = Button(text="Tags",size=(dp(200),dp(50)),size_hint=(None,None),font_size='40sp', pos_hint={"right":0.45,"top":0.97},background_color = 'darkcyan',background_normal = ""  )
+        bt2 = Button(text="Notes",font_size='40sp',size=(dp(200),dp(50)),size_hint=(None,None), pos_hint={"right":0.82,"top":0.97},background_color = 'darkcyan',background_normal = ""  )
         bt3 = Button(text="Setting",size=(dp(60),dp(30)),size_hint=(None,None),pos_hint={"right":.08,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
-        self.add_widget(Label(text="Todo", color='aquamarine',font_size='42sp',bold=True,
-                              pos_hint={"right": 0.50, "top": 0.97}, size=(dp(200), dp(50)),size_hint=(None, None)))
-        add_todo = Button(text="+",font_size='100sp',size=(dp(74),dp(70)),size_hint=(None,None),pos_hint={"right":0.56,"top":0.99}, background_color = 'darkcyan',background_normal = "",on_press=go_todoresultt  )
+        add_todo = Button(text="+",font_size='100sp',size=(dp(80),dp(72)),size_hint=(None,None),pos_hint={"right":0.56,"top":0.99}, background_color = 'darkcyan',background_normal = "",on_press=go_todoresultt  )
 
         def go_sc1(instance):
             app = App.get_running_app()
@@ -265,14 +263,13 @@ class Second_screen(Screen):
         self.rect.size = self.size
         self.rect.pos = self.pos
 
-        self.add_widget(Button(text="Todo", size=(dp(200), dp(50)), size_hint=(None, None),
-                     pos_hint={"right": 0.82, "top": 0.97}, background_color='darkcyan', background_normal="",on_press=self.goback))
-        self.add_widget(Button(text="Setting", size=(dp(60), dp(30)), size_hint=(None, None),
-                     pos_hint={"right": .08, "top": 0.99}, background_color='darkcyan', background_normal=""))
-        self.add_widget(Label(text="Notes", color='aquamarine', font_size='42sp', bold=True,
-                              pos_hint={"right": 0.50, "top": 0.97}, size=(dp(200), dp(50)), size_hint=(None, None)))
-        self.add_widget(Button(text="+", font_size='100sp', size=(dp(74), dp(70)), size_hint=(None, None),
-                          pos_hint={"right": 0.56, "top": 0.99}, background_color='darkcyan', background_normal=""))
+        self.add_widget(Button(text="Todo",font_size='40sp',size=(dp(200),dp(50)),size_hint=(None,None),
+                               pos_hint={"right":0.82,"top":0.97},background_color = 'darkcyan',background_normal = ""  ,on_press=self.goback))
+        self.add_widget(Button(text="Setting",size=(dp(60),dp(30)),size_hint=(None,None),
+                               pos_hint={"right":.08,"top":0.99},background_color = 'darkcyan',background_normal = ""  ))
+        self.add_widget(Button(text="Tags",size=(dp(200),dp(50)),size_hint=(None,None),font_size='40sp', pos_hint={"right":0.45,"top":0.97},background_color = 'darkcyan',background_normal = ""  ))
+        self.add_widget(Button(text="+",font_size='100sp',size=(dp(80),dp(72)),size_hint=(None,None),
+                               pos_hint={"right":0.56,"top":0.99}, background_color = 'darkcyan',background_normal = ""))
 
         self.add_widget(Button(text="go back",size=(dp(100),dp(50)),size_hint=(None,None),
                                pos_hint={"right":1,"top":0.99},background_color = (0.235,.522, .486,1),background_normal = "",on_press=self.goback))
