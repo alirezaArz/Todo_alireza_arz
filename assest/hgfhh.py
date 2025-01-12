@@ -94,6 +94,7 @@ class Mainscreen(Screen):
         bt3 = Button(text="Setting",size=(dp(60),dp(30)),size_hint=(None,None),pos_hint={"right":.08,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
         self.add_widget(Button(text="+",font_size='100sp',size=(dp(80),dp(72)),size_hint=(None,None),pos_hint={"right":0.56,"top":0.99}, background_color = 'darkcyan',background_normal = "",on_press=self.maketodoresult))
 
+
         def go_sc1(instance):
             app = App.get_running_app()
             app.sm.remove_widget(app.sm.get_screen('first'))
