@@ -1,4 +1,3 @@
-from configobj.validate import bool_dict
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -42,17 +41,13 @@ class MainGridlayout(GridLayout):
         self.padding = dp(10)
         self.spacing = dp(-20)
         self.screen_manager = screen_manager
-
-        self.add_widget(Button(text="add", size=(dp(60), dp(30)), on_press=self.refresh, size_hint=(None, None),
-                           pos_hint={"right": .38, "top": 0.99}, background_color='darkcyan', background_normal=""))
-
-    def refresh(self, instance):
-        self.clear_widgets()
+        self.refresh()
         global todo
         for object in todo:
             self.addnew(object[0])
 
-
+    def refresh(self):
+        self.clear_widgets()
 
     def addnew(self,getting_label):
         self.made_layout = BoxLayout()
@@ -135,11 +130,8 @@ class Mainscreen(Screen):
 
 # todos result screen--------------------------------------------------------------------------------------
 class Todoresultscreen(Screen):
-    def __init__(self, screen_manager=None, **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.screen_manager = screen_manager
-        self.sendgrid_layout = MainGridlayout(screen_manager=self.screen_manager)
-        self.add_widget(self.sendgrid_layout)
 
         with self.canvas:
             # screen color managment
@@ -192,13 +184,9 @@ class Todoresultscreen(Screen):
                                pos_hint={"right": 0.55, "top": 0.1}, background_color='darkcyan',background_normal=""))
 
     def save(self,instance):
-        global todo
         bk_addtodo(self.labeltx.text,self.descriptiontx.text,self.timetx.text,self.datetx.text,self.tagtx.text)
         app = App.get_running_app()
-        app.sm.remove_widget(app.sm.get_screen('main'))
-        app.sm.add_widget(Mainscreen(name='main'))
         self.manager.current = 'main'
-        self.sendgrid_layout.refresh(todo)
 
 
 
