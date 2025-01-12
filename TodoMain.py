@@ -33,46 +33,6 @@ def bk_addtodo(label,description,time,date,tag):
 
 #front end-----------------------------------------------------------------------------------------------------------------------------------------
 
-#main grid layout for main todos----------------------------------------------------------------------------------
-class MainGridlayout(GridLayout):
-    def __init__(self,screen_manager, **kwargs):
-        super().__init__(**kwargs)
-        self.cols = 1
-        self.padding = dp(10)
-        self.spacing = dp(-20)
-        self.screen_manager = screen_manager
-        self.refresh()
-        global todo
-        for object in todo:
-            self.addnew(object[0])
-
-    def refresh(self):
-        self.clear_widgets()
-
-    def addnew(self,getting_label):
-        self.made_layout = BoxLayout()
-        self.made_layout.add_widget(Button(text="done", background_color ='darkcyan',background_normal = "", size_hint=(.1, .7)))
-        self.made_layout.add_widget(Button(text=f"{getting_label}",on_press=self.go_todoresult, background_color = 'lightseagreen',background_normal = "", size_hint=(1, .7)))
-        self.made_layout.size_x = 1
-        self.made_layout.size_hint_y = None
-        self.made_layout.size_y = dp(5)
-        self.add_widget(self.made_layout)
-
-    def go_todoresult(self, instance):
-        self.screen_manager.remove_widget(self.screen_manager.get_screen('todoresult'))
-        self.screen_manager.add_widget(Todoresultscreen(name='todoresult'))
-        self.screen_manager.current = 'todoresult'
-
-# main grid layout's scroll feature
-class Scrollmain(ScrollView):
-    def __init__(self, screen_manager, **kwargs):
-        super().__init__(**kwargs)
-        self.size_hint = (1, 0.72)
-        self.pos_hint = {"x": 0, "y": 0.1}
-        self.maingrid = MainGridlayout(screen_manager, size_hint=(1, None), pos_hint=(0.5, 0.01))
-        self.maingrid.bind(minimum_height=self.maingrid.setter('height'))
-        self.maingrid.height = self.maingrid.minimum_height
-        self.add_widget(self.maingrid)
 
 # main screen
 class Mainscreen(Screen):
@@ -126,6 +86,50 @@ class Mainscreen(Screen):
         self.todo_scroll = Scrollmain(self.manager)
         self.add_widget(self.todo_scroll)
         self.add_widget(add_todo)
+
+
+# main grid layout's scroll feature
+class Scrollmain(ScrollView):
+    def __init__(self, screen_manager, **kwargs):
+        super().__init__(**kwargs)
+        self.size_hint = (1, 0.72)
+        self.pos_hint = {"x": 0, "y": 0.1}
+        self.maingrid = MainGridlayout(screen_manager, size_hint=(1, None), pos_hint=(0.5, 0.01))
+        self.maingrid.bind(minimum_height=self.maingrid.setter('height'))
+        self.maingrid.height = self.maingrid.minimum_height
+        self.add_widget(self.maingrid)
+
+
+#main grid layout for main todos----------------------------------------------------------------------------------
+class MainGridlayout(GridLayout):
+    def __init__(self,screen_manager, **kwargs):
+        super().__init__(**kwargs)
+        self.cols = 1
+        self.padding = dp(10)
+        self.spacing = dp(-20)
+        self.screen_manager = screen_manager
+        self.refresh()
+        global todo
+        for object in todo:
+            self.addnew(object[0])
+
+
+    def refresh(self):
+        self.clear_widgets()
+
+    def addnew(self,getting_label):
+        self.made_layout = BoxLayout()
+        self.made_layout.add_widget(Button(text="done", background_color ='darkcyan',background_normal = "", size_hint=(.1, .7)))
+        self.made_layout.add_widget(Button(text=f"{getting_label}",on_press=self.go_todoresult, background_color = 'lightseagreen',background_normal = "", size_hint=(1, .7)))
+        self.made_layout.size_x = 1
+        self.made_layout.size_hint_y = None
+        self.made_layout.size_y = dp(5)
+        self.add_widget(self.made_layout)
+
+    def go_todoresult(self, instance):
+        self.screen_manager.remove_widget(self.screen_manager.get_screen('todoresult'))
+        self.screen_manager.add_widget(Todoresultscreen(name='todoresult'))
+        self.screen_manager.current = 'todoresult'
 
 
 # todos result screen--------------------------------------------------------------------------------------
@@ -186,6 +190,7 @@ class Todoresultscreen(Screen):
     def save(self,instance):
         bk_addtodo(self.labeltx.text,self.descriptiontx.text,self.timetx.text,self.datetx.text,self.tagtx.text)
         app = App.get_running_app()
+
         self.manager.current = 'main'
 
 
