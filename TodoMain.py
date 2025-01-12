@@ -23,7 +23,6 @@ todo = []
 def bk_addtodo(label,description,time,date,tag):
     compound = [label,description,time,date,tag]
     todo.append(compound)
-    print(todo)
 
 
 
@@ -44,10 +43,15 @@ class MainGridlayout(GridLayout):
         self.spacing = dp(-20)
         self.screen_manager = screen_manager
 
-    global todo
-    def refresh(self,todo):
-        for objects in todo:
-            self.addnew(objects[0])
+        self.add_widget(Button(text="add", size=(dp(60), dp(30)), on_press=self.refresh, size_hint=(None, None),
+                           pos_hint={"right": .38, "top": 0.99}, background_color='darkcyan', background_normal=""))
+
+    def refresh(self, instance):
+        self.clear_widgets()
+        global todo
+        for object in todo:
+            self.addnew(object[0])
+
 
 
     def addnew(self,getting_label):
@@ -188,11 +192,13 @@ class Todoresultscreen(Screen):
                                pos_hint={"right": 0.55, "top": 0.1}, background_color='darkcyan',background_normal=""))
 
     def save(self,instance):
+        global todo
         bk_addtodo(self.labeltx.text,self.descriptiontx.text,self.timetx.text,self.datetx.text,self.tagtx.text)
         app = App.get_running_app()
         app.sm.remove_widget(app.sm.get_screen('main'))
         app.sm.add_widget(Mainscreen(name='main'))
         self.manager.current = 'main'
+        self.sendgrid_layout.refresh(todo)
 
 
 
