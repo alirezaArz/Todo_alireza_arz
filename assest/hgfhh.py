@@ -54,7 +54,7 @@ class MainGridlayout(GridLayout):
     def addnew(self,getting_label):
         self.made_layout = BoxLayout()
         self.made_layout.add_widget(Button(text="done", background_color ='darkcyan',background_normal = "", size_hint=(.1, .7)))
-        self.made_layout.add_widget(Button(text=f"{getting_label}",on_press=self.go_todoresult, background_color = 'lightseagreen',background_normal = "", size_hint=(1, .7)))
+        self.made_layout.add_widget(Button(text=f"{getting_label}", background_color = 'lightseagreen',background_normal = "", size_hint=(1, .7)))
         self.made_layout.size_x = 1
         self.made_layout.size_hint_y = None
         self.made_layout.size_y = dp(5)
@@ -93,7 +93,6 @@ class Mainscreen(Screen):
         bt2 = Button(text="Notes",font_size='40sp',size=(dp(200),dp(50)),size_hint=(None,None), pos_hint={"right":0.82,"top":0.97},background_color = 'darkcyan',background_normal = ""  )
         bt3 = Button(text="Setting",size=(dp(60),dp(30)),size_hint=(None,None),pos_hint={"right":.08,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
         self.add_widget(Button(text="+",font_size='100sp',size=(dp(80),dp(72)),size_hint=(None,None),pos_hint={"right":0.56,"top":0.99}, background_color = 'darkcyan',background_normal = "",on_press=self.maketodoresult))
-
 
         def go_sc1(instance):
             app = App.get_running_app()
@@ -169,6 +168,7 @@ class Mainscreen(Screen):
 
     def makegridscreen(self, instance):
         self.clear_widgets()
+        bk_addtodo(self.labeltx.text,self.descriptiontx.text,self.timetx.text,self.datetx.text,self.tagtx.text)
         bt1 = Button(text="Tags",size=(dp(200),dp(50)),size_hint=(None,None),font_size='40sp', pos_hint={"right":0.45,"top":0.97},background_color = 'darkcyan',background_normal = ""  )
         bt2 = Button(text="Notes",font_size='40sp',size=(dp(200),dp(50)),size_hint=(None,None), pos_hint={"right":0.82,"top":0.97},background_color = 'darkcyan',background_normal = ""  )
         bt3 = Button(text="Setting",size=(dp(60),dp(30)),size_hint=(None,None),pos_hint={"right":.08,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
