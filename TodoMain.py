@@ -296,6 +296,7 @@ class Second_screen(Screen):
                                pos_hint={"right":1,"top":0.99},background_color = (0.235,.522, .486,1),background_normal = "",on_press=self.goback))
 
 
+
 # main class-------------------------------------------------------------------------------------------------
 
 class Mainapp(App):
