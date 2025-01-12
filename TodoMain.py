@@ -44,10 +44,10 @@ class MainGridlayout(GridLayout):
         self.spacing = dp(-20)
         self.screen_manager = screen_manager
 
-
+    global todo
     def refresh(self,todo):
-        for object in todo:
-            self.addnew(object[0])
+        for objects in todo:
+            self.addnew(objects[0])
 
 
     def addnew(self,getting_label):
@@ -97,8 +97,6 @@ class Mainscreen(Screen):
             app.sm.add_widget(Todoresultscreen(name='todoresult'))
             self.manager.current = 'todoresult'
 
-        self.add_widget(Button(text="add", size=(dp(60), dp(30)), on_press=MainGridlayout.refresh, size_hint=(None, None),
-                               pos_hint={"right": .97, "top": 0.99}, background_color='darkcyan', background_normal=""))
         bt1 = Button(text="Tags",size=(dp(200),dp(50)),size_hint=(None,None),font_size='40sp', pos_hint={"right":0.45,"top":0.97},background_color = 'darkcyan',background_normal = ""  )
         bt2 = Button(text="Notes",font_size='40sp',size=(dp(200),dp(50)),size_hint=(None,None), pos_hint={"right":0.82,"top":0.97},background_color = 'darkcyan',background_normal = ""  )
         bt3 = Button(text="Setting",size=(dp(60),dp(30)),size_hint=(None,None),pos_hint={"right":.08,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
@@ -190,13 +188,11 @@ class Todoresultscreen(Screen):
                                pos_hint={"right": 0.55, "top": 0.1}, background_color='darkcyan',background_normal=""))
 
     def save(self,instance):
-        global todo
         bk_addtodo(self.labeltx.text,self.descriptiontx.text,self.timetx.text,self.datetx.text,self.tagtx.text)
         app = App.get_running_app()
         app.sm.remove_widget(app.sm.get_screen('main'))
         app.sm.add_widget(Mainscreen(name='main'))
         self.manager.current = 'main'
-        self.sendgrid_layout.refresh(todo)
 
 
 
