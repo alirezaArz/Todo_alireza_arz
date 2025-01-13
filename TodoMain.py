@@ -68,8 +68,52 @@ class MainGridlayout(GridLayout):
         todo_id = instance.id
         bk_donetodos(todo_id)
         self.refreshmaking()
+#this part doesnt work todo to make the todos editing part
+    def edittodoresult(self,instance):
+        self.clear_widgets()
+        self.add_widget(Button(text="go back", size=(dp(100), dp(50)), size_hint=(None, None),
+                               pos_hint={"right": 1, "top": 0.99}, background_color='darkcyan', background_normal=""))
 
+        self.labeltx = TextInput(hint_text="Enter the Label", halign='center', font_size='20sp',
+                                 pos_hint={"right": 0.80, "top": 0.98},
+                                 size=(dp(500), dp(40)), size_hint=(None, None), background_color='aquamarine',
+                                 background_normal="", multiline=False)
+        self.add_widget(self.labeltx)
 
+        self.descriptiontx = TextInput(hint_text="Enter the description", halign='center', font_size='20sp',
+                                       pos_hint={"right": 0.64, "top": 0.85},
+                                       size=(dp(500), dp(430)), size_hint=(None, None), background_color='aquamarine',
+                                       background_normal="", multiline=True)
+        self.add_widget(self.descriptiontx)
+
+        self.datetx = TextInput(hint_text="Date example: 00/00/00 ", font_size='17sp',
+                                pos_hint={"right": 0.95, "top": 0.72},
+                                size=(dp(200), dp(38)), size_hint=(None, None), background_color='turquoise',
+                                background_normal="", multiline=False)
+        self.add_widget(self.datetx)
+
+        self.timetx = TextInput(hint_text=" Time example: 00:00:00 ", font_size='17sp',
+                                pos_hint={"right": 0.95, "top": 0.80}, size=(dp(200), dp(38)),
+                                size_hint=(None, None), background_color='turquoise', background_normal="",
+                                multiline=False)
+        self.add_widget(self.timetx)
+
+        self.add_widget(Label(text="Enter the date and time ", color='aquamarine', font_size='20sp',
+                              pos_hint={"right": 0.95, "top": 0.86},
+                              size=(dp(200), dp(38)), size_hint=(None, None)))
+
+        self.add_widget(Label(text="Enter the tag/tags", color='aquamarine',
+                              font_size='20sp', pos_hint={"right": 0.95, "top": 0.62}, size=(dp(200), dp(38)),
+                              size_hint=(None, None)))
+
+        self.tagtx = TextInput(hint_text="existing tags : ", font_size='20sp', pos_hint={"right": 0.97, "top": 0.55},
+                               size=(dp(250), dp(250)),
+                               size_hint=(None, None), background_color='turquoise', background_normal="",
+                               multiline=True)
+        self.add_widget(self.tagtx)
+
+        self.add_widget(Button(text="save", size=(dp(80), dp(40)), size_hint=(None, None),
+                               pos_hint={"right": 0.55, "top": 0.1}, background_color='darkcyan', background_normal=""))
 
 
     def addnew(self,getting_label,ids):
@@ -79,6 +123,7 @@ class MainGridlayout(GridLayout):
         dbtn.bind(on_press=self.fr_tododone)
         nbtn = (Button(text=f"{getting_label}",font_size='30sp', background_color = 'lightseagreen',background_normal = "", size_hint=(1, .7)))
         nbtn.id = ids
+        nbtn.bind(on_press=self.edittodoresult)
 
         self.made_layout.add_widget(dbtn)
         self.made_layout.add_widget(nbtn)
