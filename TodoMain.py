@@ -45,13 +45,10 @@ class MainGridlayout(GridLayout):
         self.padding = dp(10)
         self.spacing = dp(-20)
         self.screen_manager = screen_manager
-        self.refresh()
         global todo
         for object in todo:
             self.addnew(object[0])
 
-    def refresh(self):
-        self.clear_widgets()
 
     def addnew(self,getting_label):
         self.made_layout = BoxLayout()
@@ -88,6 +85,10 @@ class Mainscreen(Screen):
     def _update_rect(self, *args):
         self.rect.size = self.size
         self.rect.pos = self.pos
+        self.refresh()
+
+    def refresh(self):
+        self.clear_widgets()
 
 
 
@@ -213,21 +214,24 @@ class TagGridlayout(GridLayout):
         self.padding = dp(10)
         self.spacing = dp(-20)
         self.screen_manager = screen_manager
-        self.refresh()
         global tags
         for object in tags:
             self.addnew(object[0])
 
-    def refresh(self):
-        self.clear_widgets()
 
     def addnew(self, getting_label):
-        self.add_widget(
+        self.made_layout = BoxLayout()
+        self.made_layout.add_widget(
+            Button(text="done", background_color='darkcyan', background_normal="", size_hint=(.1, .7)))
+        self.made_layout.add_widget(
             Button(text=f"{getting_label}", font_size='30sp', background_color='lightseagreen', background_normal="",
-                   size_hint=(1, 1)))
+                   size_hint=(1, .7)))
+        self.made_layout.size_x = 1
+        self.made_layout.size_hint_y = None
+        self.made_layout.size_y = dp(5)
+        self.add_widget(self.made_layout)
 
 
-# main grid layout's scroll feature
 class Scrolltag(ScrollView):
     def __init__(self, screen_manager, **kwargs):
         super().__init__(**kwargs)
@@ -239,7 +243,6 @@ class Scrolltag(ScrollView):
         self.add_widget(self.taggrid)
 
 
-# main screen
 class Tagscreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -250,6 +253,14 @@ class Tagscreen(Screen):
 
             self.rect = Rectangle(size=self.size, pos=self.pos)
         self.bind(size=self._update_rect, pos=self._update_rect)
+    def _update_rect(self, *args):
+        self.rect.size = self.size
+        self.rect.pos = self.pos
+        self.refresh()
+
+    def refresh(self):
+        self.clear_widgets()
+
 
         self.add_widget(Button(text="+", font_size='100sp', size=(dp(80), dp(72)), size_hint=(None, None),
                                pos_hint={"right": 0.56, "top": 0.99}, background_color='darkcyan', background_normal="",
@@ -258,9 +269,6 @@ class Tagscreen(Screen):
         self.add_widget(Button(text="go back", on_press=self.goback, size=(dp(100), dp(50)), size_hint=(None, None),
                                pos_hint={"right": 1, "top": 0.99}, background_color='darkcyan', background_normal=""))
 
-    def _update_rect(self, *args):
-        self.rect.size = self.size
-        self.rect.pos = self.pos
         self.tag_scroll = Scrolltag(self.manager)
         self.add_widget(self.tag_scroll)
 
@@ -306,18 +314,9 @@ class Tagscreen(Screen):
 
         self.add_widget(Button(text="go back", on_press=self.goback, size=(dp(100), dp(50)), size_hint=(None, None),
                                pos_hint={"right": 1, "top": 0.99}, background_color='darkcyan', background_normal=""))
+        self.tag_scroll = Scrolltag(self.manager)
+        self.add_widget(self.tag_scroll)
 
-        def _update_rect(*args):
-            self.rect.size = self.size
-            self.rect.pos = self.pos
-            self.tag_scroll = Scrolltag(self.manager)
-            self.add_widget(self.tag_scroll)
-
-        def goback(instance):
-            app = App.get_running_app()
-            app.sm.remove_widget(app.sm.get_screen('main'))
-            app.sm.add_widget(Mainscreen(name='main'))
-            self.manager.current = 'main'
 #second screen-----------------------------------------------------------------------------------------------
 class Second_screen(Screen):
     def __init__(self, **kwargs):
