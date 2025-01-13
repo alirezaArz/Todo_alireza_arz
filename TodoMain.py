@@ -20,8 +20,20 @@ todo = []
 def bk_addtodo(label,description,time,date,tag):
     compound = [label,description,time,date,tag]
     todo.append(compound)
+    stl = 0
+    for oj in todo:
+        stl +=1
+    print(stl)
+
+def bk_donetodos(id):
+    finished = todo.pop(id)
+    done.append(finished)
+    print(done)
+
 
 tags = []
+removed = []
+done = []
 def bk_addtag(label,description):
     compound = [label,description]
     tags.append(compound)
@@ -34,9 +46,6 @@ def bk_addtag(label,description):
 
 
 #front end-----------------------------------------------------------------------------------------------------------------------------------------
-class BlankScreen(Screen):
-    pass
-
 #main grid layout for main todos----------------------------------------------------------------------------------
 class MainGridlayout(GridLayout):
     def __init__(self,screen_manager, **kwargs):
@@ -45,20 +54,35 @@ class MainGridlayout(GridLayout):
         self.padding = dp(10)
         self.spacing = dp(-20)
         self.screen_manager = screen_manager
+        self.refreshmaking()
+    def refreshmaking(self):
+        self.clear_widgets()
         global todo
         for object in todo:
-            self.addnew(object[0])
+            self.addnew(object[0],todo.index(object))
+
+    def fr_tododone(self,instance):
+        todo_id = instance.id
+        bk_donetodos(todo_id)
+        self.refreshmaking()
 
 
-    def addnew(self,getting_label):
+
+
+    def addnew(self,getting_label,ids):
         self.made_layout = BoxLayout()
-        self.made_layout.add_widget(Button(text="done", background_color ='darkcyan',background_normal = "", size_hint=(.1, .7)))
-        self.made_layout.add_widget(Button(text=f"{getting_label}",font_size='30sp', background_color = 'lightseagreen',background_normal = "", size_hint=(1, .7)))
+        dbtn = Button(text="done", background_color ='darkcyan',background_normal = "", size_hint=(.1, .7))
+        dbtn.id = ids
+        dbtn.bind(on_press=self.fr_tododone)
+        nbtn = (Button(text=f"{getting_label}",font_size='30sp', background_color = 'lightseagreen',background_normal = "", size_hint=(1, .7)))
+        nbtn.id = ids
+
+        self.made_layout.add_widget(dbtn)
+        self.made_layout.add_widget(nbtn)
         self.made_layout.size_x = 1
         self.made_layout.size_hint_y = None
         self.made_layout.size_y = dp(5)
         self.add_widget(self.made_layout)
-
 
 # main grid layout's scroll feature
 class Scrollmain(ScrollView):
@@ -222,7 +246,7 @@ class TagGridlayout(GridLayout):
     def addnew(self, getting_label):
         self.made_layout = BoxLayout()
         self.made_layout.add_widget(
-            Button(text="done", background_color='darkcyan', background_normal="", size_hint=(.1, .7)))
+            Button(text="remove", background_color='darkcyan', background_normal="", size_hint=(.1, .7)))
         self.made_layout.add_widget(
             Button(text=f"{getting_label}", font_size='30sp', background_color='lightseagreen', background_normal="",
                    size_hint=(1, .7)))
