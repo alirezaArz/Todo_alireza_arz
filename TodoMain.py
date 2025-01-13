@@ -55,12 +55,15 @@ class MainGridlayout(GridLayout):
         self.spacing = dp(-20)
         self.screen_manager = screen_manager
         self.refreshmaking()
+
+# a function to remake the whole gridlayout and deletes the finished ones
     def refreshmaking(self):
         self.clear_widgets()
         global todo
         for object in todo:
             self.addnew(object[0],todo.index(object))
 
+#front finising function to pass the selected key and id to the backend
     def fr_tododone(self,instance):
         todo_id = instance.id
         bk_donetodos(todo_id)
