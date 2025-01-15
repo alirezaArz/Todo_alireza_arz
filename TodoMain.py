@@ -30,6 +30,12 @@ def bk_donetodos(id):
     done.append(finished)
     print(done)
 
+def bk_saveedits(id,label,description,time,date,tag):
+    num = 0
+    for entry in label,description,time,date,tag:
+        if entry != '':
+            todo[id][num] = entry
+        num += 1
 
 tags = []
 removed = []
@@ -155,9 +161,8 @@ class Mainscreen(Screen):
     def edittodoresult(self,todo_id):
         self.clear_widgets()
         global todo
-
         self.add_widget(Button(text="go back", size=(dp(100), dp(50)), size_hint=(None, None),
-                               pos_hint={"right": 1, "top": 0.99}, background_color='darkcyan', background_normal=""))
+                               pos_hint={"right": 1, "top": 0.99}, background_color='darkcyan', background_normal="",on_press=self.editback))
 
         self.labeltx = TextInput(hint_text=f"{todo[todo_id][0]}", halign='center', font_size='20sp',
                                  pos_hint={"right": 0.80, "top": 0.98},
@@ -197,8 +202,19 @@ class Mainscreen(Screen):
                                multiline=True)
         self.add_widget(self.tagtx)
 
-        self.add_widget(Button(text="save", size=(dp(80), dp(40)), size_hint=(None, None),
-                               pos_hint={"right": 0.55, "top": 0.1}, background_color='darkcyan', background_normal=""))
+        self.savepool = Button(text="save", size=(dp(80), dp(40)), size_hint=(None, None),
+                               pos_hint={"right": 0.55, "top": 0.1}, background_color='darkcyan', background_normal="",on_press=self.saveback)
+        self.savepool.id = todo_id
+        self.add_widget(self.savepool)
+
+    def saveback(self,instance):
+        todo_id = instance.id
+        bk_saveedits(todo_id, self.labeltx.text, self.descriptiontx.text, self.timetx.text, self.datetx.text, self.tagtx.text)
+        self.makegridscreen()
+
+    def editback(self,instance):
+        self.clear_widgets()
+        self.makegridscreen()
 
 
     def maketodoresult(self,instance):
