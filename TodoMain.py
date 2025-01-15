@@ -30,12 +30,11 @@ def bk_addtodo(label,description,time,date,tag):
                 b1 += 1
         if b1 == 0:
             tags.append([tag, 'No description yet!'])
-
-
     stl = 0
     for oj in todo:
         stl +=1
     print(stl)
+
 
 def bk_donetodos(id):
     finished = todo.pop(id)
@@ -63,6 +62,12 @@ def bk_saveedits(id,label,description,time,date,tag):
 def bk_addtag(label,description):
     compound = [label,description]
     tags.append(compound)
+
+def bk_tagremove(id):
+    removed = tags.pop(id)
+    done.append(removed)
+    print(done)
+
 
 #front end-----------------------------------------------------------------------------------------------------------------------------------------
 #main grid layout for main todos----------------------------------------------------------------------------------
@@ -323,27 +328,34 @@ class TagGridlayout(GridLayout):
         self.padding = dp(10)
         self.spacing = dp(-20)
         self.screen_manager = screen_manager
+        self.refreshtagmaking()
+
+    def refreshtagmaking(self):
+        self.clear_widgets()
         global tags
         for object in tags:
             self.addnew(object[0],tags.index(object))
 
 
-    def addnew(self, getting_label):
+    def fr_tagremove(self,instance):
+        tag_id = instance.id
+        bk_tagremove(tag_id)
+        self.refreshtagmaking()
+
+    def addnew(self,getting_label,ids):
         self.made_layout = BoxLayout()
-        self.made_layout.add_widget(
-        dbtn=Button(text="done", background_color='darkcyan', background_normal="", size_hint=(.1, .7))
-        dbtn.id = ids
-        dbtn.bind(on_press=self.fr_tododone)
+        tdbtn = Button(text="remove", background_color ='darkcyan',background_normal = "", size_hint=(.1, .7))
+        tdbtn.id = ids
+        tdbtn.bind(on_press=self.fr_tagremove)
+        tnbtn = (Button(text=f"{getting_label}",font_size='30sp', background_color = 'lightseagreen',background_normal = "", size_hint=(1, .7)))
+        tnbtn.id = ids
 
-        nbtn = (Button(text=f"{getting_label}", font_size='30sp', background_color='lightseagreen', background_normal="",size_hint=(1, .7)))
-        nbtn.id = ids
-        nbtn.bind(on_press=self.preparetoedit)
-
+        self.made_layout.add_widget(tdbtn)
+        self.made_layout.add_widget(tnbtn)
         self.made_layout.size_x = 1
         self.made_layout.size_hint_y = None
         self.made_layout.size_y = dp(5)
         self.add_widget(self.made_layout)
-
 
 class Scrolltag(ScrollView):
     def __init__(self, screen_manager, **kwargs):
