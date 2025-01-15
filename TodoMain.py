@@ -68,6 +68,13 @@ def bk_tagremove(id):
     done.append(removed)
     print(done)
 
+def bk_savetagedits(id,label,description):
+    a1 = 0
+    for entry in label,description:
+        if entry != '':
+            tags[id][a1] = entry
+            a1 += 1
+
 
 #front end-----------------------------------------------------------------------------------------------------------------------------------------
 #main grid layout for main todos----------------------------------------------------------------------------------
@@ -322,8 +329,9 @@ class Mainscreen(Screen):
 # tagscreen--------------------------------------------------------------------------------------------------
 
 class TagGridlayout(GridLayout):
-    def __init__(self, screen_manager, **kwargs):
+    def __init__(self, screen_manager,uppercl, **kwargs):
         super().__init__(**kwargs)
+        self.uppercl = uppercl
         self.cols = 1
         self.padding = dp(10)
         self.spacing = dp(-20)
@@ -336,11 +344,14 @@ class TagGridlayout(GridLayout):
         for object in tags:
             self.addnew(object[0],tags.index(object))
 
-
     def fr_tagremove(self,instance):
         tag_id = instance.id
         bk_tagremove(tag_id)
         self.refreshtagmaking()
+
+    def preparetoedit(self,instance):
+        tag_id = instance.id
+        self.uppercl.edittagresult(tag_id)
 
     def addnew(self,getting_label,ids):
         self.made_layout = BoxLayout()
@@ -349,6 +360,7 @@ class TagGridlayout(GridLayout):
         tdbtn.bind(on_press=self.fr_tagremove)
         tnbtn = (Button(text=f"{getting_label}",font_size='30sp', background_color = 'lightseagreen',background_normal = "", size_hint=(1, .7)))
         tnbtn.id = ids
+        tnbtn.bind(on_press=self.preparetoedit)
 
         self.made_layout.add_widget(tdbtn)
         self.made_layout.add_widget(tnbtn)
@@ -358,11 +370,12 @@ class TagGridlayout(GridLayout):
         self.add_widget(self.made_layout)
 
 class Scrolltag(ScrollView):
-    def __init__(self, screen_manager, **kwargs):
+    def __init__(self, screen_manager,uppercl, **kwargs):
         super().__init__(**kwargs)
+        self.uppercl = uppercl
         self.size_hint = (1, 0.72)
         self.pos_hint = {"x": 0, "y": 0.1}
-        self.taggrid = TagGridlayout(screen_manager, size_hint=(1, None), pos_hint=(0.5, 0.01))
+        self.taggrid = TagGridlayout(self,screen_manager, size_hint=(1, None), pos_hint=(0.5, 0.01))
         self.taggrid.bind(minimum_height=self.taggrid.setter('height'))
         self.taggrid.height = self.taggrid.minimum_height
         self.add_widget(self.taggrid)
@@ -394,7 +407,7 @@ class Tagscreen(Screen):
         self.add_widget(Button(text="go back", on_press=self.goback, size=(dp(100), dp(50)), size_hint=(None, None),
                                pos_hint={"right": 1, "top": 0.99}, background_color='darkcyan', background_normal=""))
 
-        self.tag_scroll = Scrolltag(self.manager)
+        self.tag_scroll = Scrolltag(self,self.manager)
         self.add_widget(self.tag_scroll)
 
     def goback(self, instance):
@@ -402,6 +415,37 @@ class Tagscreen(Screen):
         app.sm.remove_widget(app.sm.get_screen('main'))
         app.sm.add_widget(Mainscreen(name='main'))
         self.manager.current = 'main'
+
+
+    def edittagresult(self, tag_id):
+        self.clear_widgets()
+        global tags
+        self.add_widget(Button(text="go back", size=(dp(100), dp(50)), size_hint=(None, None),
+                                pos_hint={"right": 1, "top": 0.99}, background_color='darkcyan',background_normal="",on_press=self.editback))
+
+        self.labeltx = TextInput(hint_text=f"{tags[tag_id][0]}", halign='center', font_size='20sp',pos_hint={"right": 0.80, "top": 0.98},
+                                    size=(dp(500), dp(40)), size_hint=(None, None), background_color='aquamarine',background_normal="", multiline=False)
+        self.add_widget(self.labeltx)
+
+        self.descriptiontx = TextInput(hint_text=f"{tags[tag_id][1]}", halign='center', font_size='20sp',pos_hint={"right": 0.64, "top": 0.85},
+                                           size=(dp(500), dp(430)), size_hint=(None, None),background_color='aquamarine',
+                                           background_normal="", multiline=True)
+        self.add_widget(self.descriptiontx)
+
+        self.savepool = Button(text="save", size=(dp(80), dp(40)), size_hint=(None, None),
+                                   pos_hint={"right": 0.55, "top": 0.1}, background_color='darkcyan',background_normal="",on_press=self.saveback)
+        self.savepool.id = tag_id
+        self.add_widget(self.savepool)
+
+    def saveback(self, instance):
+        tag_id = instance.id
+        bk_savetagedits(tag_id, self.labeltx.text, self.descriptiontx.text)
+        self.makegridscreen()
+
+    def editback(self, instance):
+        self.clear_widgets()
+        self.makegridscreen()
+
 
     def maketagresult(self, instance):
         self.clear_widgets()
@@ -439,7 +483,7 @@ class Tagscreen(Screen):
 
         self.add_widget(Button(text="go back", on_press=self.goback, size=(dp(100), dp(50)), size_hint=(None, None),
                                pos_hint={"right": 1, "top": 0.99}, background_color='darkcyan', background_normal=""))
-        self.tag_scroll = Scrolltag(self.manager)
+        self.tag_scroll = Scrolltag(self,self.manager)
         self.add_widget(self.tag_scroll)
 
 #note screen-----------------------------------------------------------------------------------------------
