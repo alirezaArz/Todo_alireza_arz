@@ -12,14 +12,26 @@ from kivy.graphics import Rectangle, Color
 from kivy.uix.stacklayout import StackLayout
 from kivy.uix.textinput import TextInput
 
-
-
 #back end-------------------------------------------------------------------------------------------------------------------------------------------
-
+tags = []
+removed = []
+done = []
 todo = []
+
 def bk_addtodo(label,description,time,date,tag):
     compound = [label,description,time,date,tag]
     todo.append(compound)
+    if tag != '':
+        b1 = 0
+        if tags == '':
+            b1 += 1
+        for object in tags:
+            if object[0] == tag:
+                b1 += 1
+        if b1 == 0:
+            tags.append([tag, 'No description yet!'])
+
+
     stl = 0
     for oj in todo:
         stl +=1
@@ -31,25 +43,26 @@ def bk_donetodos(id):
     print(done)
 
 def bk_saveedits(id,label,description,time,date,tag):
-    num = 0
+    a1 = 0
     for entry in label,description,time,date,tag:
         if entry != '':
-            todo[id][num] = entry
-        num += 1
+            todo[id][a1] = entry
+        a1 += 1
 
-tags = []
-removed = []
-done = []
+    if tag != '':
+        b1 = 0
+        if tags == '':
+            b1 += 1
+        for object in tags:
+            if object[0] == tag:
+                b1 += 1
+        if b1 == 0:
+            tags.append([tag, 'No description yet!'])
+
+
 def bk_addtag(label,description):
     compound = [label,description]
     tags.append(compound)
-
-
-
-
-
-
-
 
 #front end-----------------------------------------------------------------------------------------------------------------------------------------
 #main grid layout for main todos----------------------------------------------------------------------------------
@@ -141,7 +154,7 @@ class Mainscreen(Screen):
         def go_sc2(instance):
             app = App.get_running_app()
             app.sm.remove_widget(app.sm.get_screen('second'))
-            app.sm.add_widget(Second_screen(name='second'))
+            app.sm.add_widget(Notescreen(name='second'))
             self.manager.current = 'second'
         def go_sc3(instance):
             app = App.get_running_app()
@@ -285,7 +298,7 @@ class Mainscreen(Screen):
         def go_sc2(instance):
             app = App.get_running_app()
             app.sm.remove_widget(app.sm.get_screen('second'))
-            app.sm.add_widget(Second_screen(name='second'))
+            app.sm.add_widget(Notescreen(name='second'))
             self.manager.current = 'second'
         def go_sc3(instance):
             app = App.get_running_app()
@@ -312,16 +325,20 @@ class TagGridlayout(GridLayout):
         self.screen_manager = screen_manager
         global tags
         for object in tags:
-            self.addnew(object[0])
+            self.addnew(object[0],tags.index(object))
 
 
     def addnew(self, getting_label):
         self.made_layout = BoxLayout()
         self.made_layout.add_widget(
-            Button(text="remove", background_color='darkcyan', background_normal="", size_hint=(.1, .7)))
-        self.made_layout.add_widget(
-            Button(text=f"{getting_label}", font_size='30sp', background_color='lightseagreen', background_normal="",
-                   size_hint=(1, .7)))
+        dbtn=Button(text="done", background_color='darkcyan', background_normal="", size_hint=(.1, .7))
+        dbtn.id = ids
+        dbtn.bind(on_press=self.fr_tododone)
+
+        nbtn = (Button(text=f"{getting_label}", font_size='30sp', background_color='lightseagreen', background_normal="",size_hint=(1, .7)))
+        nbtn.id = ids
+        nbtn.bind(on_press=self.preparetoedit)
+
         self.made_layout.size_x = 1
         self.made_layout.size_hint_y = None
         self.made_layout.size_y = dp(5)
@@ -413,8 +430,8 @@ class Tagscreen(Screen):
         self.tag_scroll = Scrolltag(self.manager)
         self.add_widget(self.tag_scroll)
 
-#second screen-----------------------------------------------------------------------------------------------
-class Second_screen(Screen):
+#note screen-----------------------------------------------------------------------------------------------
+class Notescreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         with self.canvas:
@@ -441,10 +458,6 @@ class Second_screen(Screen):
         self.add_widget(Button(text="Tags",size=(dp(200),dp(50)),size_hint=(None,None),font_size='40sp', pos_hint={"right":0.45,"top":0.97},background_color = 'darkcyan',background_normal = ""  ))
         self.add_widget(Button(text="+",font_size='100sp',size=(dp(80),dp(72)),size_hint=(None,None),
                                pos_hint={"right":0.56,"top":0.99}, background_color = 'darkcyan',background_normal = ""))
-
-        self.add_widget(Button(text="go back",size=(dp(100),dp(50)),size_hint=(None,None),
-                               pos_hint={"right":1,"top":0.99},background_color = (0.235,.522, .486,1),background_normal = "",on_press=self.goback))
-
 
 # setting management-----------------------------------------------------------------------------------------
 class Settingscreen(Screen):
@@ -477,7 +490,7 @@ class Mainapp(App):
         self.sm = ScreenManager()
         self.sm.add_widget(Mainscreen(name="main"))
         self.sm.add_widget(Tagscreen(name="first"))
-        self.sm.add_widget(Second_screen(name="second"))
+        self.sm.add_widget(Notescreen(name="second"))
         self.sm.add_widget(Settingscreen(name="setting"))
         return self.sm
 
