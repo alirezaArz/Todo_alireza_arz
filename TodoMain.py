@@ -121,8 +121,11 @@ class MainGridlayout(GridLayout):
     def refreshmaking(self):
         self.clear_widgets()
         global todo
+        global done
         for object in todo:
             self.addnew(object[0],todo.index(object))
+        for object in done:
+            self.donenew(object[0],done.index(object))
 
 #front finising function to pass the selected key and id to the backend
     def fr_tododone(self,instance):
@@ -130,6 +133,20 @@ class MainGridlayout(GridLayout):
         bk_donetodos(todo_id)
         self.refreshmaking()
 
+    def fr_remove(self,instance):
+        global done
+        done_id = instance.id
+        done.pop(done_id)
+        savedexport()
+        self.refreshmaking()
+
+    def fr_recover(self,instance):
+        global done
+        done_id = instance.id
+        object = done.pop(done_id)
+        todo.append(object)
+        savedexport()
+        self.refreshmaking()
 #the todos editing part
     def preparetoedit(self,instance):
         todo_id = instance.id
@@ -145,6 +162,28 @@ class MainGridlayout(GridLayout):
         nbtn.bind(on_press=self.preparetoedit)
 
         self.made_layout.add_widget(dbtn)
+        self.made_layout.add_widget(nbtn)
+        self.made_layout.size_x = 1
+        self.made_layout.size_hint_y = None
+        self.made_layout.size_y = dp(5)
+        self.add_widget(self.made_layout)
+
+    def donenew(self, getting_label, ids):
+        self.made_layout = BoxLayout()
+        print(ids)
+
+        dbtn = Button(text="recover", background_color='darkcyan', background_normal="", size_hint=(.1, .7),on_press=self.fr_recover)
+        dbtn.id = ids
+
+        xbtn = Button(text="remove", background_color='darkcyan', background_normal="", size_hint=(.1, .7),on_press=self.fr_remove)
+        xbtn.id = ids
+
+        nbtn = (Button(text=f"{getting_label}", font_size='30sp', background_color='lightseagreen',
+                   background_normal="",size_hint=(1, .7),on_press=self.preparetoedit))
+        nbtn.id = ids
+
+        self.made_layout.add_widget(dbtn)
+        self.made_layout.add_widget(xbtn)
         self.made_layout.add_widget(nbtn)
         self.made_layout.size_x = 1
         self.made_layout.size_hint_y = None
@@ -209,37 +248,40 @@ class Mainscreen(Screen):
         self.add_widget(bt1)
         self.add_widget(bt2)
         self.add_widget(bt3)
-        self.donelayout = Finishedlayout(self, self.manager)
-        self.add_widget(self.donelayout)
         self.todo_scroll = Scrollmain(self,self.manager)
         self.add_widget(self.todo_scroll)
 
 
-    def edittodoresult(self,todo_id):
+    def edittodoresult(self,todo_id,protocol):
         self.clear_widgets()
+        global done
         global todo
+        if protocol == '1':
+            src = todo
+        elif protocol == '2':
+            src = done
         self.add_widget(Button(text="go back", size=(dp(100), dp(50)), size_hint=(None, None),
                                pos_hint={"right": 1, "top": 0.99}, background_color='darkcyan', background_normal="",on_press=self.editback))
 
-        self.labeltx = TextInput(hint_text=f"{todo[todo_id][0]}", halign='center', font_size='20sp',
+        self.labeltx = TextInput(hint_text=f"{src[todo_id][0]}", halign='center', font_size='20sp',
                                  pos_hint={"right": 0.80, "top": 0.98},
                                  size=(dp(500), dp(40)), size_hint=(None, None), background_color='aquamarine',
                                  background_normal="", multiline=False)
         self.add_widget(self.labeltx)
 
-        self.descriptiontx = TextInput(hint_text=f"{todo[todo_id][1]}", halign='center', font_size='20sp',
+        self.descriptiontx = TextInput(hint_text=f"{src[todo_id][1]}", halign='center', font_size='20sp',
                                        pos_hint={"right": 0.64, "top": 0.85},
                                        size=(dp(500), dp(430)), size_hint=(None, None), background_color='aquamarine',
                                        background_normal="", multiline=True)
         self.add_widget(self.descriptiontx)
 
-        self.timetx = TextInput(hint_text=f"{todo[todo_id][2]}", font_size='17sp',
+        self.timetx = TextInput(hint_text=f"{src[todo_id][2]}", font_size='17sp',
                                 pos_hint={"right": 0.95, "top": 0.72}, size=(dp(200), dp(38)),
                                 size_hint=(None, None), background_color='turquoise', background_normal="",
                                 multiline=False)
         self.add_widget(self.timetx)
 
-        self.datetx = TextInput(hint_text=f"{todo[todo_id][3]}", font_size='17sp',
+        self.datetx = TextInput(hint_text=f"{src[todo_id][3]}", font_size='17sp',
                                 pos_hint={"right": 0.95, "top": 0.80},
                                 size=(dp(200), dp(38)), size_hint=(None, None), background_color='turquoise',
                                 background_normal="", multiline=False)
@@ -253,7 +295,7 @@ class Mainscreen(Screen):
                               font_size='20sp', pos_hint={"right": 0.95, "top": 0.62}, size=(dp(200), dp(38)),
                               size_hint=(None, None)))
 
-        self.tagtx = TextInput(hint_text=f"{todo[todo_id][4]}", font_size='20sp', pos_hint={"right": 0.97, "top": 0.55},
+        self.tagtx = TextInput(hint_text=f"{src[todo_id][4]}", font_size='20sp', pos_hint={"right": 0.97, "top": 0.55},
                                size=(dp(250), dp(250)),
                                size_hint=(None, None), background_color='turquoise', background_normal="",
                                multiline=True)
@@ -355,80 +397,8 @@ class Mainscreen(Screen):
         self.add_widget(bt1)
         self.add_widget(bt2)
         self.add_widget(bt3)
-        self.donelayout = Finishedlayout(self,self.manager)
-        self.add_widget(self.donelayout)
         self.todo_scroll = Scrollmain(self,self.manager)
         self.add_widget(self.todo_scroll)
-
-# finished todos pagelayout----------------------------------------------------------------------------------
-
-class Finishedlayout(PageLayout):
-    def __init__(self,upper,screen_manager, **kwargs):
-        super().__init__(**kwargs)
-        self.upper = upper
-        self.screen_manager = screen_manager
-        self.todo_scroll = Scrollmain(self, screen_manager)
-        self.add_widget(self.todo_scroll)
-
-
-
-class Scrolldone(ScrollView):
-    def __init__(self, screen_manager,uppercl, **kwargs):
-        super().__init__(**kwargs)
-        self.size_hint = (1, 0.72)
-        self.pos_hint = {"x": 0, "y": 0.1}
-        self.maingrid = doneGridlayout(self,screen_manager, size_hint=(1, None), pos_hint=(0.5, 0.01))
-        self.maingrid.bind(minimum_height=self.maingrid.setter('height'))
-        self.maingrid.height = self.maingrid.minimum_height
-        self.add_widget(self.maingrid)
-        self.uppercl = uppercl
-
-
-class doneGridlayout(GridLayout):
-    def __init__(self,screen_manager,uppercl, **kwargs):
-        super().__init__(**kwargs)
-        self.cols = 1
-        self.padding = dp(10)
-        self.spacing = dp(-20)
-        self.screen_manager = screen_manager
-        self.uppercl = uppercl
-        self.refreshmaking()
-
-# a function to remake the whole gridlayout and deletes the finished ones
-    def refreshmaking(self):
-        self.clear_widgets()
-        global todo
-        for object in todo:
-            self.addnew(object[0],todo.index(object))
-
-#front finising function to pass the selected key and id to the backend
-    def fr_tododone(self,instance):
-        todo_id = instance.id
-        bk_donetodos(todo_id)
-        self.refreshmaking()
-
-#the todos editing part
-    def preparetoedit(self,instance):
-        todo_id = instance.id
-        self.uppercl.edittodoresult(todo_id)
-
-    def addnew(self,getting_label,ids):
-        self.made_layout = BoxLayout()
-        dbtn = Button(text="done", background_color ='darkcyan',background_normal = "", size_hint=(.1, .7))
-        dbtn.id = ids
-        dbtn.bind(on_press=self.fr_tododone)
-        nbtn = (Button(text=f"{getting_label}",font_size='30sp', background_color = 'lightseagreen',background_normal = "", size_hint=(1, .7)))
-        nbtn.id = ids
-        nbtn.bind(on_press=self.preparetoedit)
-
-        self.made_layout.add_widget(dbtn)
-        self.made_layout.add_widget(nbtn)
-        self.made_layout.size_x = 1
-        self.made_layout.size_hint_y = None
-        self.made_layout.size_y = dp(5)
-        self.add_widget(self.made_layout)
-
-
 
 
 # tagscreen--------------------------------------------------------------------------------------------------
