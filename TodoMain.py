@@ -221,35 +221,29 @@ class Mainscreen(Screen):
         self.rect.pos = self.pos
         saveimport()
         self.refresh()
-
     def refresh(self):
         self.clear_widgets()
 
-        bt1 = Button(text="Tags",size=(dp(200),dp(50)),size_hint=(None,None),font_size='40sp', pos_hint={"right":0.45,"top":0.97},background_color = 'darkcyan',background_normal = ""  )
-        bt2 = Button(text="Notes",font_size='40sp',size=(dp(200),dp(50)),size_hint=(None,None), pos_hint={"right":0.82,"top":0.97},background_color = 'darkcyan',background_normal = ""  )
-        bt3 = Button(text="Setting",size=(dp(60),dp(30)),size_hint=(None,None),pos_hint={"right":.08,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
-        self.add_widget(Button(text="+",font_size='100sp',size=(dp(80),dp(72)),size_hint=(None,None),pos_hint={"right":0.56,"top":0.99}, background_color = 'darkcyan',background_normal = "",on_press=self.maketodoresult))
+        bt1 = Button(text="Tags",size=(dp(200),dp(50)),size_hint=(None,None),font_size='40sp', pos_hint={"right": 0.82,"top": 0.97},background_color = 'darkcyan',background_normal = ""  )
+        bt3 = Button(text="Setting",size=(dp(60),dp(30)),size_hint=(None,None),pos_hint={"right":.99,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
+        self.add_widget(Label(text="Todo", color='aquamarine',bold = True, font_size='60sp',pos_hint={"right": 0.45, "top": 0.97},
+                              size=(dp(200), dp(50)), size_hint=(None, None)))
+        self.add_widget(Button(text="+",font_size='100sp',size=(dp(80),dp(72)),size_hint=(None,None),pos_hint={"right":0.56,"top":0.99},
+                               background_color = 'darkcyan',background_normal = "",on_press=self.maketodoresult))
 
         def go_sc1(instance):
             app = App.get_running_app()
             app.sm.remove_widget(app.sm.get_screen('first'))
             app.sm.add_widget(Tagscreen(name='first'))
             self.manager.current = 'first'
-        def go_sc2(instance):
-            app = App.get_running_app()
-            app.sm.remove_widget(app.sm.get_screen('second'))
-            app.sm.add_widget(Notescreen(name='second'))
-            self.manager.current = 'second'
         def go_sc3(instance):
             app = App.get_running_app()
             app.sm.remove_widget(app.sm.get_screen('setting'))
             app.sm.add_widget(Settingscreen(name='setting'))
             self.manager.current = 'setting'
         bt1.bind(on_press=go_sc1)
-        bt2.bind(on_press=go_sc2)
         bt3.bind(on_press=go_sc3)
         self.add_widget(bt1)
-        self.add_widget(bt2)
         self.add_widget(bt3)
         self.todo_scroll = Scrollmain(self,self.manager)
         self.add_widget(self.todo_scroll)
@@ -376,9 +370,10 @@ class Mainscreen(Screen):
 
     def makegridscreen(self):
         self.clear_widgets()
-        bt1 = Button(text="Tags",size=(dp(200),dp(50)),size_hint=(None,None),font_size='40sp', pos_hint={"right":0.45,"top":0.97},background_color = 'darkcyan',background_normal = ""  )
-        bt2 = Button(text="Notes",font_size='40sp',size=(dp(200),dp(50)),size_hint=(None,None), pos_hint={"right":0.82,"top":0.97},background_color = 'darkcyan',background_normal = ""  )
-        bt3 = Button(text="Setting",size=(dp(60),dp(30)),size_hint=(None,None),pos_hint={"right":.08,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
+        bt1 = Button(text="Tags",size=(dp(200),dp(50)),size_hint=(None,None),font_size='40sp', pos_hint={"right": 0.82,"top": 0.97},background_color = 'darkcyan',background_normal = ""  )
+        bt3 = Button(text="Setting",size=(dp(60),dp(30)),size_hint=(None,None),pos_hint={"right":.99,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
+        self.add_widget(Label(text="Todo", color='aquamarine', bold=True, font_size='60sp', pos_hint={"right": 0.45, "top": 0.97},
+                  size=(dp(200), dp(50)), size_hint=(None, None)))
         self.add_widget(Button(text="+",font_size='100sp',size=(dp(80),dp(72)),size_hint=(None,None),pos_hint={"right":0.56,"top":0.99}, background_color = 'darkcyan',background_normal = "",on_press=self.maketodoresult))
 
         def go_sc1(instance):
@@ -386,21 +381,15 @@ class Mainscreen(Screen):
             app.sm.remove_widget(app.sm.get_screen('first'))
             app.sm.add_widget(Tagscreen(name='first'))
             self.manager.current = 'first'
-        def go_sc2(instance):
-            app = App.get_running_app()
-            app.sm.remove_widget(app.sm.get_screen('second'))
-            app.sm.add_widget(Notescreen(name='second'))
-            self.manager.current = 'second'
+
         def go_sc3(instance):
             app = App.get_running_app()
             app.sm.remove_widget(app.sm.get_screen('setting'))
             app.sm.add_widget(Settingscreen(name='setting'))
             self.manager.current = 'setting'
         bt1.bind(on_press=go_sc1)
-        bt2.bind(on_press=go_sc2)
         bt3.bind(on_press=go_sc3)
         self.add_widget(bt1)
-        self.add_widget(bt2)
         self.add_widget(bt3)
         self.todo_scroll = Scrollmain(self,self.manager)
         self.add_widget(self.todo_scroll)
@@ -485,6 +474,8 @@ class Tagscreen(Screen):
         self.add_widget(Button(text="+", font_size='100sp', size=(dp(80), dp(72)), size_hint=(None, None),
                                pos_hint={"right": 0.56, "top": 0.99}, background_color='darkcyan', background_normal="",
                                on_press=self.maketagresult))
+        self.add_widget(Label(text="Tags", color='aquamarine', bold=True, font_size='60sp', pos_hint={"right": 0.82, "top": 0.97},
+                  size=(dp(200), dp(50)), size_hint=(None, None)))
 
         self.add_widget(Button(text="go back", on_press=self.goback, size=(dp(100), dp(50)), size_hint=(None, None),
                                pos_hint={"right": 1, "top": 0.99}, background_color='darkcyan', background_normal=""))
@@ -503,15 +494,19 @@ class Tagscreen(Screen):
         self.clear_widgets()
         global tags
         todoamount = 0
-        noteamount = 0
         for objects in todo:
             if tags[tag_id][0] == objects[4]:
                 todoamount += 1
+        if todoamount == 0:
+            jm = f'There are no todos\ncurrently using this tag'
+        elif todoamount == 1:
+            jm = f'There is one todo\ncurrently using this tag'
+        else:
+            jm = f'there are {todoamount}\ntodos currently using this tag'
 
 
-        self.add_widget(Label(text=f"there are {todoamount} todos and {noteamount} notes \n currently using this tag",
-                        color='aquamarine', font_size='20sp',
-                        pos_hint={"right": 0.95, "top": 0.86},
+        self.add_widget(Label(text=jm,color='aquamarine', font_size='25sp',
+                        pos_hint={"right": 0.90, "top": 0.65},
                         size=(dp(200), dp(38)), size_hint=(None, None)))
 
         self.add_widget(Button(text="go back", size=(dp(100), dp(50)), size_hint=(None, None),
@@ -575,40 +570,12 @@ class Tagscreen(Screen):
         self.add_widget(Button(text="+", font_size='100sp', size=(dp(80), dp(72)), size_hint=(None, None),
                                pos_hint={"right": 0.56, "top": 0.99}, background_color='darkcyan', background_normal="",
                                on_press=self.maketagresult))
-
+        self.add_widget(Label(text="Tags", color='aquamarine', bold=True, font_size='60sp', pos_hint={"right": 0.82, "top": 0.97},
+                  size=(dp(200), dp(50)), size_hint=(None, None)))
         self.add_widget(Button(text="go back", on_press=self.goback, size=(dp(100), dp(50)), size_hint=(None, None),
                                pos_hint={"right": 1, "top": 0.99}, background_color='darkcyan', background_normal=""))
         self.tag_scroll = Scrolltag(self,self.manager)
         self.add_widget(self.tag_scroll)
-
-#note screen-----------------------------------------------------------------------------------------------
-class Notescreen(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        with self.canvas:
-            # screen color managment
-            Color(0.280, 0.450, 0.454, 0.700)
-
-            self.rect = Rectangle(size=self.size, pos=self.pos)
-        self.bind(size=self._update_rect, pos=self._update_rect)
-
-    def goback(self,instance):
-        app = App.get_running_app()
-        app.sm.remove_widget(app.sm.get_screen('main'))
-        app.sm.add_widget(Mainscreen(name='main'))
-        self.manager.current = 'main'
-
-    def _update_rect(self, *args):
-        self.rect.size = self.size
-        self.rect.pos = self.pos
-
-        self.add_widget(Button(text="Todo",font_size='40sp',size=(dp(200),dp(50)),size_hint=(None,None),
-                               pos_hint={"right":0.82,"top":0.97},background_color = 'darkcyan',background_normal = ""  ,on_press=self.goback))
-        self.add_widget(Button(text="Setting",size=(dp(60),dp(30)),size_hint=(None,None),
-                               pos_hint={"right":.08,"top":0.99},background_color = 'darkcyan',background_normal = ""  ))
-        self.add_widget(Button(text="Tags",size=(dp(200),dp(50)),size_hint=(None,None),font_size='40sp', pos_hint={"right":0.45,"top":0.97},background_color = 'darkcyan',background_normal = ""  ))
-        self.add_widget(Button(text="+",font_size='100sp',size=(dp(80),dp(72)),size_hint=(None,None),
-                               pos_hint={"right":0.56,"top":0.99}, background_color = 'darkcyan',background_normal = ""))
 
 # setting management-----------------------------------------------------------------------------------------
 class Settingscreen(Screen):
@@ -641,7 +608,6 @@ class Mainapp(App):
         self.sm = ScreenManager()
         self.sm.add_widget(Mainscreen(name="main"))
         self.sm.add_widget(Tagscreen(name="first"))
-        self.sm.add_widget(Notescreen(name="second"))
         self.sm.add_widget(Settingscreen(name="setting"))
         return self.sm
 
