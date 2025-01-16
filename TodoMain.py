@@ -66,11 +66,17 @@ def bk_donetodos(id):
     savedexport()
     print(done)
 
-def bk_saveedits(id,label,description,time,date,tag):
+def bk_saveedits(protocol,id,label,description,time,date,tag):
     a1 = 0
     for entry in label,description,time,date,tag:
+        src = ''
+        if protocol == '1':
+            src = todo
+        elif protocol == '2':
+            src = done
+
         if entry != '':
-            todo[id][a1] = entry
+            src[id][a1] = entry
         a1 += 1
 
     if tag != '':
@@ -89,12 +95,6 @@ def bk_addtag(label,description):
     compound = [label,description]
     tags.append(compound)
     savedexport()
-
-def bk_tagremove(id):
-    removed = tags.pop(id)
-    done.append(removed)
-    savedexport()
-    print(done)
 
 def bk_savetagedits(id,label,description):
     a1 = 0
@@ -150,7 +150,8 @@ class MainGridlayout(GridLayout):
 #the todos editing part
     def preparetoedit(self,instance):
         todo_id = instance.id
-        self.uppercl.edittodoresult(todo_id)
+        protocol = instance.protocol
+        self.uppercl.edittodoresult(todo_id,protocol)
 
     def addnew(self,getting_label,ids):
         self.made_layout = BoxLayout()
@@ -159,6 +160,7 @@ class MainGridlayout(GridLayout):
         dbtn.bind(on_press=self.fr_tododone)
         nbtn = (Button(text=f"{getting_label}",font_size='30sp', background_color = 'lightseagreen',background_normal = "", size_hint=(1, .7)))
         nbtn.id = ids
+        nbtn.protocol = '1'
         nbtn.bind(on_press=self.preparetoedit)
 
         self.made_layout.add_widget(dbtn)
@@ -172,14 +174,15 @@ class MainGridlayout(GridLayout):
         self.made_layout = BoxLayout()
         print(ids)
 
-        dbtn = Button(text="recover", background_color='darkcyan', background_normal="", size_hint=(.1, .7),on_press=self.fr_recover)
+        dbtn = Button(text="recover", background_color='steelblue', background_normal="", size_hint=(.1, .7),on_press=self.fr_recover)
         dbtn.id = ids
 
-        xbtn = Button(text="remove", background_color='darkcyan', background_normal="", size_hint=(.1, .7),on_press=self.fr_remove)
+        xbtn = Button(text="remove", background_color='lightcoral', background_normal="", size_hint=(.1, .7),on_press=self.fr_remove)
         xbtn.id = ids
 
-        nbtn = (Button(text=f"{getting_label}", font_size='30sp', background_color='lightseagreen',
+        nbtn = (Button(text=f"{getting_label}", font_size='30sp', background_color='lightslategray',
                    background_normal="",size_hint=(1, .7),on_press=self.preparetoedit))
+        nbtn.protocol = '2'
         nbtn.id = ids
 
         self.made_layout.add_widget(dbtn)
@@ -303,12 +306,14 @@ class Mainscreen(Screen):
 
         self.savepool = Button(text="save", size=(dp(80), dp(40)), size_hint=(None, None),
                                pos_hint={"right": 0.55, "top": 0.1}, background_color='darkcyan', background_normal="",on_press=self.saveback)
+        self.savepool.protocol = protocol
         self.savepool.id = todo_id
         self.add_widget(self.savepool)
 
     def saveback(self,instance):
+        protocol = instance.protocol
         todo_id = instance.id
-        bk_saveedits(todo_id, self.labeltx.text, self.descriptiontx.text, self.timetx.text, self.datetx.text, self.tagtx.text)
+        bk_saveedits(protocol, todo_id, self.labeltx.text, self.descriptiontx.text, self.timetx.text, self.datetx.text, self.tagtx.text)
         self.makegridscreen()
 
     def editback(self,instance):
@@ -420,8 +425,10 @@ class TagGridlayout(GridLayout):
             self.addnew(object[0],tags.index(object))
 
     def fr_tagremove(self,instance):
+        global tags
         tag_id = instance.id
-        bk_tagremove(tag_id)
+        tags.pop(tag_id)
+        savedexport()
         self.refreshtagmaking()
 
     def preparetoedit(self,instance):
