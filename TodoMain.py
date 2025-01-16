@@ -1,3 +1,5 @@
+from itertools import combinations
+
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -9,14 +11,35 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.screenmanager import Screen
 from kivy.graphics import Rectangle, Color
+from kivy.uix.pagelayout import PageLayout
 from kivy.uix.stacklayout import StackLayout
 from kivy.uix.textinput import TextInput
-
+import pickle
 #back end-------------------------------------------------------------------------------------------------------------------------------------------
 tags = []
 removed = []
 done = []
 todo = []
+combinated = [todo, tags, removed, done]
+
+def saveimport():
+    try:
+        with open('savedDt.pdt', 'rb') as file:
+            newdata = pickle.load(file)
+            todo[:] = newdata[0]
+            tags[:] = newdata[1]
+            removed[:] = newdata[2]
+            done[:] = newdata[3]
+    except (IndexError, FileNotFoundError):
+        pass
+
+def savedexport():
+    try:
+        with open('savedDt.pdt', 'wb') as file:
+            pickle.dump(combinated, file)
+    except (IndexError, FileNotFoundError):
+        pass
+
 
 def bk_addtodo(label,description,time,date,tag):
     compound = [label,description,time,date,tag]
@@ -30,6 +53,7 @@ def bk_addtodo(label,description,time,date,tag):
                 b1 += 1
         if b1 == 0:
             tags.append([tag, 'No description yet!'])
+    savedexport()
     stl = 0
     for oj in todo:
         stl +=1
@@ -39,6 +63,7 @@ def bk_addtodo(label,description,time,date,tag):
 def bk_donetodos(id):
     finished = todo.pop(id)
     done.append(finished)
+    savedexport()
     print(done)
 
 def bk_saveedits(id,label,description,time,date,tag):
@@ -57,15 +82,18 @@ def bk_saveedits(id,label,description,time,date,tag):
                 b1 += 1
         if b1 == 0:
             tags.append([tag, 'No description yet!'])
+    savedexport()
 
 
 def bk_addtag(label,description):
     compound = [label,description]
     tags.append(compound)
+    savedexport()
 
 def bk_tagremove(id):
     removed = tags.pop(id)
     done.append(removed)
+    savedexport()
     print(done)
 
 def bk_savetagedits(id,label,description):
@@ -74,6 +102,7 @@ def bk_savetagedits(id,label,description):
         if entry != '':
             tags[id][a1] = entry
             a1 += 1
+    savedexport()
 
 
 #front end-----------------------------------------------------------------------------------------------------------------------------------------
@@ -148,6 +177,7 @@ class Mainscreen(Screen):
     def _update_rect(self, *args):
         self.rect.size = self.size
         self.rect.pos = self.pos
+        saveimport()
         self.refresh()
 
     def refresh(self):
@@ -179,6 +209,8 @@ class Mainscreen(Screen):
         self.add_widget(bt1)
         self.add_widget(bt2)
         self.add_widget(bt3)
+        self.donelayout = Finishedlayout(self, self.manager)
+        self.add_widget(self.donelayout)
         self.todo_scroll = Scrollmain(self,self.manager)
         self.add_widget(self.todo_scroll)
 
@@ -323,8 +355,80 @@ class Mainscreen(Screen):
         self.add_widget(bt1)
         self.add_widget(bt2)
         self.add_widget(bt3)
+        self.donelayout = Finishedlayout(self,self.manager)
+        self.add_widget(self.donelayout)
         self.todo_scroll = Scrollmain(self,self.manager)
         self.add_widget(self.todo_scroll)
+
+# finished todos pagelayout----------------------------------------------------------------------------------
+
+class Finishedlayout(PageLayout):
+    def __init__(self,upper,screen_manager, **kwargs):
+        super().__init__(**kwargs)
+        self.upper = upper
+        self.screen_manager = screen_manager
+        self.todo_scroll = Scrollmain(self, screen_manager)
+        self.add_widget(self.todo_scroll)
+
+
+class Scrolldone(ScrollView):
+    def __init__(self, screen_manager,uppercl, **kwargs):
+        super().__init__(**kwargs)
+        self.size_hint = (1, 0.72)
+        self.pos_hint = {"x": 0, "y": 0.1}
+        self.maingrid = doneGridlayout(self,screen_manager, size_hint=(1, None), pos_hint=(0.5, 0.01))
+        self.maingrid.bind(minimum_height=self.maingrid.setter('height'))
+        self.maingrid.height = self.maingrid.minimum_height
+        self.add_widget(self.maingrid)
+        self.uppercl = uppercl
+
+
+class doneGridlayout(GridLayout):
+    def __init__(self,screen_manager,uppercl, **kwargs):
+        super().__init__(**kwargs)
+        self.cols = 1
+        self.padding = dp(10)
+        self.spacing = dp(-20)
+        self.screen_manager = screen_manager
+        self.uppercl = uppercl
+        self.refreshmaking()
+
+# a function to remake the whole gridlayout and deletes the finished ones
+    def refreshmaking(self):
+        self.clear_widgets()
+        global todo
+        for object in todo:
+            self.addnew(object[0],todo.index(object))
+
+#front finising function to pass the selected key and id to the backend
+    def fr_tododone(self,instance):
+        todo_id = instance.id
+        bk_donetodos(todo_id)
+        self.refreshmaking()
+
+#the todos editing part
+    def preparetoedit(self,instance):
+        todo_id = instance.id
+        self.uppercl.edittodoresult(todo_id)
+
+    def addnew(self,getting_label,ids):
+        self.made_layout = BoxLayout()
+        dbtn = Button(text="done", background_color ='darkcyan',background_normal = "", size_hint=(.1, .7))
+        dbtn.id = ids
+        dbtn.bind(on_press=self.fr_tododone)
+        nbtn = (Button(text=f"{getting_label}",font_size='30sp', background_color = 'lightseagreen',background_normal = "", size_hint=(1, .7)))
+        nbtn.id = ids
+        nbtn.bind(on_press=self.preparetoedit)
+
+        self.made_layout.add_widget(dbtn)
+        self.made_layout.add_widget(nbtn)
+        self.made_layout.size_x = 1
+        self.made_layout.size_hint_y = None
+        self.made_layout.size_y = dp(5)
+        self.add_widget(self.made_layout)
+
+
+
 
 # tagscreen--------------------------------------------------------------------------------------------------
 
@@ -420,6 +524,18 @@ class Tagscreen(Screen):
     def edittagresult(self, tag_id):
         self.clear_widgets()
         global tags
+        todoamount = 0
+        noteamount = 0
+        for objects in todo:
+            if tags[tag_id][0] == objects[4]:
+                todoamount += 1
+
+
+        self.add_widget(Label(text=f"there are {todoamount} todos and {noteamount} notes \n currently using this tag",
+                        color='aquamarine', font_size='20sp',
+                        pos_hint={"right": 0.95, "top": 0.86},
+                        size=(dp(200), dp(38)), size_hint=(None, None)))
+
         self.add_widget(Button(text="go back", size=(dp(100), dp(50)), size_hint=(None, None),
                                 pos_hint={"right": 1, "top": 0.99}, background_color='darkcyan',background_normal="",on_press=self.editback))
 
