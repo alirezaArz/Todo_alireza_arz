@@ -97,11 +97,10 @@ def bk_addtag(label,description):
     savedexport()
 
 def bk_savetagedits(id,label,description):
-    a1 = 0
-    for entry in label,description:
-        if entry != '':
-            tags[id][a1] = entry
-            a1 += 1
+    if label != '':
+        tags[id][0] = label
+    tags[id][1] = description
+
     savedexport()
 
 
@@ -492,7 +491,7 @@ class Tagscreen(Screen):
 
     def edittagresult(self, tag_id):
         self.clear_widgets()
-        global tags
+        global todo
         todoamount = 0
         for objects in todo:
             if tags[tag_id][0] == objects[4]:
@@ -535,7 +534,6 @@ class Tagscreen(Screen):
     def editback(self, instance):
         self.clear_widgets()
         self.makegridscreen()
-
 
     def maketagresult(self, instance):
         self.clear_widgets()
