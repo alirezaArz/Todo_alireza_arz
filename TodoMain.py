@@ -1,5 +1,5 @@
 from itertools import combinations
-
+from kivy.config import Config
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -15,6 +15,8 @@ from kivy.uix.pagelayout import PageLayout
 from kivy.uix.stacklayout import StackLayout
 from kivy.uix.textinput import TextInput
 import pickle
+from kivy.config import Config
+
 #back end-------------------------------------------------------------------------------------------------------------------------------------------
 tags = []
 removed = []
@@ -103,6 +105,28 @@ def bk_savetagedits(id,label,description):
 
     savedexport()
 
+#color strategy
+button_save = ['black']
+back_save = ['black']
+remove_save = ['tomato']
+recover_save = ['lightblue']
+ground_save = [(1,1,1,1)]
+
+cl_ground = [1,1,1,1]
+cl_button = 'black'
+cl_back = 'black'
+cl_recover = 'lightblue'
+cl_remove = 'tomato'
+def theme(theme):
+    if theme == 'white':
+        cl_button = button_save[0]
+        cl_back = back_save[0]
+        cl_ground[:] = ground_save[0]
+        cl_recover = recover_save[0]
+        cl_remove = remove_save[0]
+
+theme('white')
+
 #front end-----------------------------------------------------------------------------------------------------------------------------------------
 #main grid layout for main todos----------------------------------------------------------------------------------
 class MainGridlayout(GridLayout):
@@ -153,10 +177,10 @@ class MainGridlayout(GridLayout):
 
     def addnew(self,getting_label,ids):
         self.made_layout = BoxLayout()
-        dbtn = Button(text="done", background_color ='darkcyan',background_normal = "", size_hint=(.1, .7))
+        dbtn = Button(size=(dp(80),dp(80)),size_hint=(None,None),background_normal=f'assest/icons/check/{cl_button}.png',background_down=f'assest/icons/check/{cl_button}.png', background_color ='white')
         dbtn.id = ids
         dbtn.bind(on_press=self.fr_tododone)
-        nbtn = (Button(text=f"{getting_label}",font_size='30sp', background_color = 'lightseagreen',background_normal = "", size_hint=(1, .7)))
+        nbtn = (Button(text=f"{getting_label}",font_size='30sp', background_color = 'gray',background_normal = "", size_hint=(1, .7)))
         nbtn.id = ids
         nbtn.protocol = '1'
         nbtn.bind(on_press=self.preparetoedit)
@@ -209,8 +233,9 @@ class Mainscreen(Screen):
         super().__init__(**kwargs)
         #apearence
         with self.canvas:
+            global cl_ground
             # screen color managment
-            Color(0.280,0.450,0.454,0.700)
+            Color(cl_ground[0],cl_ground[1],cl_ground[2],cl_ground[3])
 
             self.rect = Rectangle(size=self.size, pos=self.pos)
         self.bind(size=self._update_rect, pos=self._update_rect)
@@ -219,15 +244,17 @@ class Mainscreen(Screen):
         self.rect.pos = self.pos
         saveimport()
         self.refresh()
+        #-------------------------------------------------------------------------start coloring
     def refresh(self):
         self.clear_widgets()
-
-        bt1 = Button(text="Tags",size=(dp(200),dp(50)),size_hint=(None,None),font_size='40sp', pos_hint={"right": 0.82,"top": 0.97},background_color = 'darkcyan',background_normal = ""  )
-        bt3 = Button(text="Setting",size=(dp(60),dp(30)),size_hint=(None,None),pos_hint={"right":.99,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
+        global cl_button
+        Config.set('graphics', 'resizable', True)
+        bt1 = Button(background_normal=f'assest/icons/tag/{cl_button}.png',background_down=f'assest/icons/tag/{cl_button}.png',size=(dp(80),dp(80)),size_hint=(None,None), pos_hint={"right": 0.86,"top": 1})
+        bt3 = Button(background_normal=f'assest/icons/setting/{cl_button}.png',background_down=f'assest/icons/setting/{cl_button}.png',size=(dp(80),dp(80)),size_hint=(None,None),pos_hint={"right":1,"top":1})
         self.add_widget(Label(text="Todo", color='aquamarine',bold = True, font_size='60sp',pos_hint={"right": 0.45, "top": 0.97},
                               size=(dp(200), dp(50)), size_hint=(None, None)))
-        self.add_widget(Button(text="+",font_size='100sp',size=(dp(80),dp(72)),size_hint=(None,None),pos_hint={"right":0.56,"top":0.99},
-                               background_color = 'darkcyan',background_normal = "",on_press=self.maketodoresult))
+        self.add_widget(Button(background_normal=f'assest/icons/add/{cl_button}.png',background_down=f'assest/icons/add/{cl_button}.png',size=(dp(80),dp(80)),size_hint=(None,None),pos_hint={"right":0.56,"top":0.99},
+                               on_press=self.maketodoresult))
 
         def go_sc1(instance):
             app = App.get_running_app()
@@ -368,11 +395,21 @@ class Mainscreen(Screen):
 
     def makegridscreen(self):
         self.clear_widgets()
-        bt1 = Button(text="Tags",size=(dp(200),dp(50)),size_hint=(None,None),font_size='40sp', pos_hint={"right": 0.82,"top": 0.97},background_color = 'darkcyan',background_normal = ""  )
-        bt3 = Button(text="Setting",size=(dp(60),dp(30)),size_hint=(None,None),pos_hint={"right":.99,"top":0.99},background_color = 'darkcyan',background_normal = ""  )
-        self.add_widget(Label(text="Todo", color='aquamarine', bold=True, font_size='60sp', pos_hint={"right": 0.45, "top": 0.97},
+        global cl_button
+        Config.set('graphics', 'resizable', True)
+        bt1 = Button(background_normal=f'assest/icons/tag/{cl_button}.png',
+                     background_down=f'assest/icons/tag/{cl_button}.png', size=(dp(80), dp(80)), size_hint=(None, None),
+                     pos_hint={"right": 0.86, "top": 1})
+        bt3 = Button(background_normal=f'assest/icons/setting/{cl_button}.png',
+                     background_down=f'assest/icons/setting/{cl_button}.png', size=(dp(80), dp(80)),
+                     size_hint=(None, None), pos_hint={"right": 1, "top": 1})
+        self.add_widget(
+            Label(text="Todo", color='aquamarine', bold=True, font_size='60sp', pos_hint={"right": 0.45, "top": 0.97},
                   size=(dp(200), dp(50)), size_hint=(None, None)))
-        self.add_widget(Button(text="+",font_size='100sp',size=(dp(80),dp(72)),size_hint=(None,None),pos_hint={"right":0.56,"top":0.99}, background_color = 'darkcyan',background_normal = "",on_press=self.maketodoresult))
+        self.add_widget(Button(background_normal=f'assest/icons/add/{cl_button}.png',
+                               background_down=f'assest/icons/add/{cl_button}.png', size=(dp(80), dp(80)),
+                               size_hint=(None, None), pos_hint={"right": 0.56, "top": 0.99},
+                               on_press=self.maketodoresult))
 
         def go_sc1(instance):
             app = App.get_running_app()
@@ -596,7 +633,6 @@ class Settingscreen(Screen):
             self.manager.current = 'main'
         bt1.bind(on_press=goback)
         self.add_widget(bt1)
-
 
 # main class-------------------------------------------------------------------------------------------------
 
