@@ -120,7 +120,7 @@ cl_donecolor = 'salmon'
 cl_ground = []
 cl_button = 'darkcyan'
 cl_back = 'darkcyan'
-cl_recover = 'white'
+cl_recover = 'lightblue'
 cl_remove = 'tomato'
 cl_hintcolor = 'white'
 cl_foregroundcolor = 'oldlace'
@@ -185,9 +185,10 @@ class MainGridlayout(GridLayout):
         todo_id = instance.id
         protocol = instance.protocol
         self.uppercl.edittodoresult(todo_id,protocol)
+
     def addnew(self,getting_label,ids):
         self.made_layout = BoxLayout()
-        dbtn = Button(size=(dp(80),dp(80)),size_hint=(None,None),background_normal=f'assest/icons/check/{cl_button}.png',background_down=f'assest/icons/check/{cl_button}.png')
+        dbtn = Button(size=(dp(80),dp(80)),size_hint=(None,None),background_normal='assest/icons/check/icon.png',background_down='assest/icons/check/icon.png',background_color=cl_button)
         dbtn.id = ids
         dbtn.bind(on_press=self.fr_tododone)
         nbtn = (Button(text=f"{getting_label}",background_normal="",font_size='30sp', background_color = cl_back, size_hint=(1, .7)))
@@ -206,13 +207,13 @@ class MainGridlayout(GridLayout):
         self.made_layout = BoxLayout()
         print(ids)
 
-        dbtn = Button(background_normal=f'assest/icons/recover/{cl_button}.png',
-                     background_down=f'assest/icons/recover/{cl_button}.png',size=(dp(80),dp(80)),size_hint=(None,None),
+        dbtn = Button(background_normal='assest/icons/recover/icon.png',
+                     background_down='assest/icons/recover/icon.png',background_color=cl_recover,size=(dp(80),dp(80)),size_hint=(None,None),
                       on_press=self.fr_recover)
         dbtn.id = ids
 
-        xbtn = Button(background_normal=f'assest/icons/remove/{cl_button}.png',
-                     background_down=f'assest/icons/remove/{cl_button}.png',size=(dp(80),dp(80)),size_hint=(None,None),
+        xbtn = Button(background_normal='assest/icons/remove/icon.png',
+                     background_down='assest/icons/remove/icon.png',background_color=cl_remove,size=(dp(80),dp(80)),size_hint=(None,None),
                       on_press=self.fr_remove)
         xbtn.id = ids
 
@@ -263,16 +264,16 @@ class Mainscreen(Screen):
         self.clear_widgets()
         global cl_button
         Config.set('graphics', 'resizable', True)
-        bt1 = Button(background_normal=f'assest/icons/tag/{cl_button}.png',
-                     background_down=f'assest/icons/tag/{cl_button}.png',size=(dp(80),dp(80)),size_hint=(None,None),
-                     pos_hint={"right": 0.90,"top": 1})
+        bt1 = Button(background_normal='assest/icons/tag/icon.png',
+                     background_down='assest/icons/tag/icon.png',background_color=cl_button,size=(dp(60),dp(60)),size_hint=(None,None),
+                     pos_hint={"right": 0.88,"top": 1})
 
-        bt3 = Button(background_normal=f'assest/icons/setting/{cl_button}.png',
-                     background_down=f'assest/icons/setting/{cl_button}.png',size=(dp(80),dp(80)),size_hint=(None,None),
-                     pos_hint={"right":0.10,"top":1})
+        bt3 = Button(background_normal='assest/icons/setting/icon.png',
+                     background_down='assest/icons/setting/icon.png',background_color=cl_button,size=(dp(60),dp(60)),size_hint=(None,None),
+                     pos_hint={"right": 0.09, "top": 0.98})
 
-        self.add_widget(Button(background_normal=f'assest/icons/add/{cl_button}.png',
-                               background_down=f'assest/icons/add/{cl_button}.png', size=(dp(80), dp(80)),
+        self.add_widget(Button(background_normal='assest/icons/add/icon.png',
+                               background_down='assest/icons/add/icon.png',background_color=cl_button,size=(dp(100), dp(100)),
                                size_hint=(None, None),
                                pos_hint={"right": 1, "top": 1},
                                on_press=self.maketodoresult))
@@ -303,9 +304,9 @@ class Mainscreen(Screen):
             src = todo
         elif protocol == '2':
             src = done
-        self.add_widget(Button(background_normal=f'assest/icons/back/{cl_button}.png',
-                               background_down=f'assest/icons/back/{cl_button}.png',size=(dp(80),dp(80)),size_hint=(None,None),
-                               pos_hint={"right": 1, "top": 1},on_press=self.editback))
+        self.add_widget(Button(background_normal='assest/icons/back/icon.png',
+                               background_down='assest/icons/back/icon.png',size=(dp(80),dp(80)),size_hint=(None,None),
+                               pos_hint={"right": 1, "top": 1},background_color=cl_button,on_press=self.editback))
 
         self.labeltx = TextInput(hint_text=f"{src[todo_id][0]}",hint_text_color=cl_hintcolor,foreground_color=cl_foregroundcolor, halign='center', font_size='20sp',
                                  pos_hint={"right": 0.80, "top": 0.98},
@@ -345,8 +346,8 @@ class Mainscreen(Screen):
                                multiline=True)
         self.add_widget(self.tagtx)
 
-        self.savepool = Button(background_normal=f'assest/icons/save/{cl_button}.png',
-                               background_down=f'assest/icons/save/{cl_button}.png',size=(dp(60),dp(60)),size_hint=(None,None),
+        self.savepool = Button(background_normal='assest/icons/save/icon.png',
+                               background_down='assest/icons/save/icon.png',size=(dp(60),dp(60)),background_color=cl_button,size_hint=(None,None),
                                pos_hint={"right": 0.55, "top": 0.12},on_press=self.saveback)
         self.savepool.protocol = protocol
         self.savepool.id = todo_id
@@ -365,9 +366,9 @@ class Mainscreen(Screen):
 
     def maketodoresult(self,instance):
         self.clear_widgets()
-        self.add_widget(Button(background_normal=f'assest/icons/back/{cl_button}.png',
-                               background_down=f'assest/icons/back/{cl_button}.png',size=(dp(80),dp(80)),size_hint=(None,None),
-                               pos_hint={"right": 1, "top": 1},on_press=self.exit))
+        self.add_widget(Button(background_normal='assest/icons/back/icon.png',
+                               background_down='assest/icons/back/icon.png',size=(dp(80),dp(80)),size_hint=(None,None),
+                               pos_hint={"right": 1, "top": 1},background_color=cl_button,on_press=self.exit))
 
         self.labeltx = TextInput(hint_text="Enter the Label",hint_text_color=cl_hintcolor,foreground_color=cl_foregroundcolor, halign='center', font_size='20sp',
                                  pos_hint={"right": 0.80, "top": 0.98},
@@ -407,9 +408,9 @@ class Mainscreen(Screen):
                                multiline=True)
         self.add_widget(self.tagtx)
 
-        self.add_widget(Button(background_normal=f'assest/icons/save/{cl_button}.png',
-                               background_down=f'assest/icons/save/{cl_button}.png',size=(dp(60),dp(60)),size_hint=(None,None),
-                               pos_hint={"right": 0.55, "top": 0.12},on_press=self.saveandexit))
+        self.add_widget(Button(background_normal='assest/icons/save/icon.png',
+                               background_down='assest/icons/save/icon.png',size=(dp(60),dp(60)),size_hint=(None,None),
+                               pos_hint={"right": 0.55, "top": 0.12},background_color=cl_button,on_press=self.saveandexit))
 
     def exit(self, instance):
         self.makegridscreen()
@@ -422,17 +423,17 @@ class Mainscreen(Screen):
         self.clear_widgets()
         global cl_button
         Config.set('graphics', 'resizable', True)
-        bt1 = Button(background_normal=f'assest/icons/tag/{cl_button}.png',
-                     background_down=f'assest/icons/tag/{cl_button}.png', size=(dp(80), dp(80)), size_hint=(None, None),
-                     pos_hint={"right": 0.90, "top": 1})
+        bt1 = Button(background_normal='assest/icons/tag/icon.png',
+                     background_down='assest/icons/tag/icon.png', size=(dp(60), dp(60)),background_color=cl_button, size_hint=(None, None),
+                     pos_hint={"right": 0.88,"top": 1})
 
-        bt3 = Button(background_normal=f'assest/icons/setting/{cl_button}.png',
-                     background_down=f'assest/icons/setting/{cl_button}.png', size=(dp(80), dp(80)),
+        bt3 = Button(background_normal='assest/icons/setting/icon.png',background_color=cl_back,
+                     background_down='assest/icons/setting/icon.png', size=(dp(60), dp(60)),
                      size_hint=(None, None),
-                     pos_hint={"right": 0.10, "top": 1})
+                     pos_hint={"right": 0.09, "top": 0.98})
 
-        self.add_widget(Button(background_normal=f'assest/icons/add/{cl_button}.png',
-                               background_down=f'assest/icons/add/{cl_button}.png', size=(dp(80), dp(80)),
+        self.add_widget(Button(background_normal='assest/icons/add/icon.png',
+                               background_down='assest/icons/add/icon.png',background_color=cl_button, size=(dp(100), dp(100)),
                                size_hint=(None, None),
                                pos_hint={"right": 1, "top": 1},
                                on_press=self.maketodoresult))
@@ -487,8 +488,8 @@ class TagGridlayout(GridLayout):
 
     def addnew(self,getting_label,ids):
         self.made_layout = BoxLayout()
-        tdbtn = Button(size=(dp(80),dp(80)),size_hint=(None,None),background_normal=f'assest/icons/remove/{cl_button}.png',
-                       background_down=f'assest/icons/remove/{cl_button}.png')
+        tdbtn = Button(size=(dp(80),dp(80)),size_hint=(None,None),background_normal='assest/icons/remove/icon.png',
+                       background_down='assest/icons/remove/icon.png',background_color=cl_back)
         tdbtn.id = ids
         tdbtn.bind(on_press=self.fr_tagremove)
         tnbtn = (Button(text=f"{getting_label}",font_size='30sp',background_normal="",
@@ -533,14 +534,14 @@ class Tagscreen(Screen):
     def refresh(self):
         self.clear_widgets()
 
-        self.add_widget(Button(background_normal=f'assest/icons/tag_add/{cl_button}.png',
-            background_down=f'assest/icons/tag_add/{cl_button}.png', size=(dp(80), dp(80)),
-        size_hint=(None, None),pos_hint={"right": 0.90, "top": 1},on_press=self.maketagresult))
+        self.add_widget(Button(background_normal='assest/icons/tag_add/icon.png',
+            background_down='assest/icons/tag_add/icon.png', size=(dp(80), dp(80)),
+            size_hint=(None, None),pos_hint={"right": 0.90, "top": 1},background_color=cl_back,on_press=self.maketagresult))
 
-        self.add_widget(Button(background_normal=f'assest/icons/back/{cl_button}.png',
-                               background_down=f'assest/icons/back/{cl_button}.png', size=(dp(80), dp(80)),
+        self.add_widget(Button(background_normal='assest/icons/back/icon.png',
+                               background_down='assest/icons/back/icon.png', size=(dp(80), dp(80)),
                                size_hint=(None, None),
-                               pos_hint={"right": 1, "top": 1},on_press=self.goback))
+                               pos_hint={"right": 1, "top": 1},background_color=cl_back,on_press=self.goback))
 
         self.tag_scroll = Scrolltag(self,self.manager)
         self.add_widget(self.tag_scroll)
@@ -571,10 +572,10 @@ class Tagscreen(Screen):
                         pos_hint={"right": 0.62, "top": 0.25},bold=True,
                         size=(dp(200), dp(38)), size_hint=(None, None)))
 
-        self.add_widget(Button(background_normal=f'assest/icons/back/{cl_button}.png',
-                               background_down=f'assest/icons/back/{cl_button}.png', size=(dp(80), dp(80)),
+        self.add_widget(Button(background_normal='assest/icons/back/icon.png',
+                               background_down='assest/icons/back/icon.png', size=(dp(80), dp(80)),
                                size_hint=(None, None),
-                               pos_hint={"right": 1, "top": 1},on_press = self.editback))
+                               pos_hint={"right": 1, "top": 1},background_color=cl_button,on_press = self.editback))
 
         self.labeltx = TextInput(hint_text=f"{tags[tag_id][0]}",hint_text_color=cl_hintcolor,foreground_color=cl_foregroundcolor,
                                  halign='center', font_size='20sp',pos_hint={"right": 0.73, "top": 0.88},
@@ -586,10 +587,10 @@ class Tagscreen(Screen):
                                        size=(dp(400), dp(300)), size_hint=(None, None), background_color=cl_back, multiline=True)
         self.add_widget(self.descriptiontx)
 
-        self.savepool = Button(background_normal=f'assest/icons/save/{cl_button}.png',
-                               background_down=f'assest/icons/save/{cl_button}.png', size=(dp(60), dp(60)),
+        self.savepool = Button(background_normal='assest/icons/save/icon.png',
+                               background_down='assest/icons/save/icon.png', size=(dp(60), dp(60)),
                                size_hint=(None, None),
-                               pos_hint={"right": 0.55, "top": 0.12}, on_press=self.saveback)
+                               pos_hint={"right": 0.55, "top": 0.12},background_color=cl_button, on_press=self.saveback)
 
         self.savepool.id = tag_id
         self.add_widget(self.savepool)
@@ -606,9 +607,9 @@ class Tagscreen(Screen):
     def maketagresult(self, instance):
         self.clear_widgets()
 
-        self.add_widget(Button(background_normal=f'assest/icons/back/{cl_button}.png',
-                               background_down=f'assest/icons/back/{cl_button}.png', size=(dp(80), dp(80)),
-                               size_hint=(None, None), pos_hint={"right": 1, "top": 1},on_press=self.exit))
+        self.add_widget(Button(background_normal='assest/icons/back/icon.png',
+                               background_down='assest/icons/back/icon.png', size=(dp(80), dp(80)),
+                               size_hint=(None, None), pos_hint={"right": 1, "top": 1},background_color=cl_button,on_press=self.exit))
 
         self.labeltx = TextInput(hint_text="Enter the Label",hint_text_color=cl_hintcolor,foreground_color=cl_foregroundcolor,
                                  halign='center', font_size='20sp',pos_hint={"right": 0.73, "top": 0.88},
@@ -620,10 +621,10 @@ class Tagscreen(Screen):
                                        size=(dp(400), dp(300)), size_hint=(None, None), background_color=cl_back, multiline=True)
         self.add_widget(self.descriptiontx)
 
-        self.add_widget(Button(background_normal=f'assest/icons/save/{cl_button}.png',
-                               background_down=f'assest/icons/save/{cl_button}.png', size=(dp(60), dp(60)),
+        self.add_widget(Button(background_normal='assest/icons/save/icon.png',
+                               background_down='assest/icons/save/icon.png', size=(dp(60), dp(60)),
                                size_hint=(None, None),
-                               pos_hint={"right": 0.55, "top": 0.12}, on_press=self.saveandexit))
+                               pos_hint={"right": 0.55, "top": 0.12},background_color=cl_button, on_press=self.saveandexit))
 
     def exit(self, instance):
         self.makegridscreen()
@@ -634,11 +635,12 @@ class Tagscreen(Screen):
 
     def makegridscreen(self):
         self.clear_widgets()
-        self.add_widget(Button(background_normal=f'assest/icons/tag_add/{cl_button}.png',
-                               background_down=f'assest/icons/tag_add/{cl_button}.png', size=(dp(80), dp(80)),
-                               size_hint=(None, None), pos_hint={"right": 0.90, "top": 1},on_press=self.maketagresult))
-        self.add_widget(Button(background_normal=f'assest/icons/back/{cl_button}.png',
-                               background_down=f'assest/icons/back/{cl_button}.png', size=(dp(80), dp(80)),
+        self.add_widget(Button(background_normal='assest/icons/tag_add/icon.png',
+                               background_down='assest/icons/tag_add/icon.png', size=(dp(80), dp(80)),
+                               size_hint=(None, None), pos_hint={"right": 0.90, "top": 1},background_color=cl_button,on_press=self.maketagresult))
+
+        self.add_widget(Button(background_normal='assest/icons/back/icon.png',
+                               background_down='assest/icons/back/icon.png',background_color=cl_button, size=(dp(80), dp(80)),
                                size_hint=(None, None),
                                pos_hint={"right": 1, "top": 1}, on_press=self.goback))
         self.tag_scroll = Scrolltag(self,self.manager)
@@ -659,10 +661,10 @@ class Settingscreen(Screen):
         self.rect.size = self.size
         self.rect.pos = self.pos
 
-        self.add_widget(Button(background_normal=f'assest/icons/back/{cl_button}.png',
-                           background_down=f'assest/icons/back/{cl_button}.png', size=(dp(80), dp(80)),
+        self.add_widget(Button(background_normal='assest/icons/back/icon.png',
+                           background_down='assest/icons/back/icon.png', size=(dp(80), dp(80)),
                            size_hint=(None, None),
-                           pos_hint={"right": 1, "top": 1}, on_press=self.goback, background_color=cl_button))
+                           pos_hint={"right": 1, "top": 1}, on_press=self.goback,background_color=cl_button))
     def goback(self,instance):
         app = App.get_running_app()
         app.sm.remove_widget(app.sm.get_screen('main'))
