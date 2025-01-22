@@ -107,39 +107,34 @@ def bk_savetagedits(id,label,description):
 
 #color strategy---------------------------------------------------------
 button_save = [(0.2039, 0.2275, 0.2500, 1)
-,(0.4235, 0.4588, 0.4902, 1),(0.4667, 0.8941, 0.7843, 1)
-
-
-
-,(0.9686, 0.4980, 0.0, 1)
-,'darkcyan']
+,(0.4235, 0.4588, 0.4902, 1),(0.4667, 0.8941, 0.7843, 1),
+(0.5765, 0.3686, 0.2196, 1),(1.0, 0.1216, 0.5608, 1)
+]
 back_save = [(0.4235, 0.4588, 0.4902, 1)
 ,(0.4235, 0.4588, 0.4902, 1),(0.0078, 0.7647, 0.6039, 1)
+,(0.4353, 0.3216, 0.2314, 1),(0.6667, 0.0667, 0.3333, 1)]
 
-,(0.0, 0.1882, 0.2863, 1)
-,'black']
 remove_save = [(0.1294, 0.1451, 0.1608, 1)
 ,'salmon','salmon',(0.8392, 0.1569, 0.1569, 1)
 ,'salmon']
 recover_save = [(0.6784, 0.7098, 0.7412, 1)
-,'green',(0.7176, 0.8941, 0.7804, 1)
-,(0.0, 0.1882, 0.2863, 1)
-,'lightblue']
-ground_save = [(0.9725, 0.9765, 0.9804, 1)
-    ,(0.2039, 0.2275, 0.2500, 1),(0.0, 0.5451, 0.5451, 0.458)
+,'lightblue',(0.7176, 0.8941, 0.7804, 1),(0.7176, 0.4118, 0.2078, 1)
+,(1.0, 0.9333, 0.5333, 1)
+]
 
+ground_save = [(0.9725, 0.9765, 0.9804, 1),(0.2039, 0.2275, 0.2500, 1),
+    (0.0, 0.5451, 0.5451, 0.458),
+    (0.1490, 0.2353, 0.2549, 1),(0.2980, 0.0235, 0.1137, 1)
 
-
-
-,(0.9882, 0.7490, 0.2863, 1),(1,1,1,1)]
+]
 hint_text_save = ['white','white','white','white','white']
 foreground_color_save = ['white','white','white','white','white']
 done_color_save = ['salmon','salmon','salmon','salmon','salmon']
 
 cl_donecolor = ['black']
-cl_ground = [0.039,0.809,0.812,0.300]
-cl_button = ['black']
-cl_back = ['darkcyan']
+cl_ground = [0.2039, 0.2275, 0.2500, 1]
+cl_button = [(0.4235, 0.4588, 0.4902, 1)]
+cl_back = [(0.4235, 0.4588, 0.4902, 1)]
 cl_recover = ['lightblue']
 cl_remove = ['tomato']
 cl_hintcolor = ['white']
@@ -710,11 +705,11 @@ class Settingscreen(Screen):
                          pos_hint={"right": 1, "top": .90})
         ap3.id = 2
 
-        ap4 = ToggleButton(text='sunset',on_press=self.fr_theme,color='tomato',background_color='orangered',font_size='30sp',bold=True, group='apprence', size=(0.2,1),
+        ap4 = ToggleButton(text='Sunset',on_press=self.fr_theme,color='tomato',background_color='orangered',font_size='27sp',bold=True, group='apprence', size=(0.2,1),
                          pos_hint={"right": 1, "top": .90})
         ap4.id = 3
 
-        ap5 = ToggleButton(text='silver',on_press=self.fr_theme,color='gray',background_color='silver',font_size='30sp',bold=True,group='apprence',size=(0.2,1),
+        ap5 = ToggleButton(text='Raspberry',on_press=self.fr_theme,color='tomato',background_color='crimson',font_size='18sp',bold=True,group='apprence',size=(0.2,1),
                         pos_hint={"right": 1, "top": .90})
         ap5.id = 4
 
