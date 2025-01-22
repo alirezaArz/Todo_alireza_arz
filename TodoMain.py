@@ -106,11 +106,32 @@ def bk_savetagedits(id,label,description):
     savedexport()
 
 #color strategy---------------------------------------------------------
-button_save = ['black','black','darkcyan','darkcyan','darkcyan']
-back_save = ['black','darkcyan','black','darkcyan','black']
-remove_save = ['salmon','salmon','salmon','salmon','salmon']
-recover_save = ['lightblue','green','blue','lightblue','lightblue']
-ground_save = [(1,1,1,1),(0,0,0,0),(0.039,0.809,0.812,0.300),(1,1,1,1),(1,1,1,1)]
+button_save = [(0.2039, 0.2275, 0.2500, 1)
+,(0.4235, 0.4588, 0.4902, 1),(0.4667, 0.8941, 0.7843, 1)
+
+
+
+,(0.9686, 0.4980, 0.0, 1)
+,'darkcyan']
+back_save = [(0.4235, 0.4588, 0.4902, 1)
+,(0.4235, 0.4588, 0.4902, 1),(0.0078, 0.7647, 0.6039, 1)
+
+,(0.0, 0.1882, 0.2863, 1)
+,'black']
+remove_save = [(0.1294, 0.1451, 0.1608, 1)
+,'salmon','salmon',(0.8392, 0.1569, 0.1569, 1)
+,'salmon']
+recover_save = [(0.6784, 0.7098, 0.7412, 1)
+,'green',(0.7176, 0.8941, 0.7804, 1)
+,(0.0, 0.1882, 0.2863, 1)
+,'lightblue']
+ground_save = [(0.9725, 0.9765, 0.9804, 1)
+    ,(0.2039, 0.2275, 0.2500, 1),(0.0, 0.5451, 0.5451, 0.458)
+
+
+
+
+,(0.9882, 0.7490, 0.2863, 1),(1,1,1,1)]
 hint_text_save = ['white','white','white','white','white']
 foreground_color_save = ['white','white','white','white','white']
 done_color_save = ['salmon','salmon','salmon','salmon','salmon']
