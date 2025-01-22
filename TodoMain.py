@@ -107,23 +107,23 @@ def bk_savetagedits(id,label,description):
     savedexport()
 
 #color strategy---------------------------------------------------------
-button_save = ['black']
-back_save = ['dimgray']
-remove_save = ['tomato']
-recover_save = ['lightblue']
-ground_save = [(1,1,1,1)]
-hint_text_save = ['white']
+button_save = ['black','darkcyan']
+back_save = ['lightblue','darkcyan']
+remove_save = ['salmon','salmon']
+recover_save = ['white']
+ground_save = [(0.039,0.809,0.812,0.300)]
+hint_text_save = ['white',]
 foreground_color_save = ['white']
-done_color_save = ['gray']
+done_color_save = ['salmon','salmon']
 
-cl_donecolor = 'gray'
-cl_ground = [1,1,1,1]
-cl_button = 'black'
-cl_back = 'black'
-cl_recover = 'lightblue'
+cl_donecolor = 'salmon'
+cl_ground = []
+cl_button = 'darkcyan'
+cl_back = 'darkcyan'
+cl_recover = 'white'
 cl_remove = 'tomato'
 cl_hintcolor = 'white'
-cl_foregroundcolor = 'white'
+cl_foregroundcolor = 'oldlace'
 
 def theme(theme):
     if theme == 'white':
@@ -187,10 +187,10 @@ class MainGridlayout(GridLayout):
         self.uppercl.edittodoresult(todo_id,protocol)
     def addnew(self,getting_label,ids):
         self.made_layout = BoxLayout()
-        dbtn = Button(size=(dp(80),dp(80)),size_hint=(None,None),background_normal=f'assest/icons/check/{cl_button}.png',background_down=f'assest/icons/check/{cl_button}.png', background_color ='white')
+        dbtn = Button(size=(dp(80),dp(80)),size_hint=(None,None),background_normal=f'assest/icons/check/{cl_button}.png',background_down=f'assest/icons/check/{cl_button}.png')
         dbtn.id = ids
         dbtn.bind(on_press=self.fr_tododone)
-        nbtn = (Button(text=f"{getting_label}",font_size='30sp', background_color = cl_back, size_hint=(1, .7)))
+        nbtn = (Button(text=f"{getting_label}",background_normal="",font_size='30sp', background_color = cl_back, size_hint=(1, .7)))
         nbtn.id = ids
         nbtn.protocol = '1'
         nbtn.bind(on_press=self.preparetoedit)
@@ -207,11 +207,13 @@ class MainGridlayout(GridLayout):
         print(ids)
 
         dbtn = Button(background_normal=f'assest/icons/recover/{cl_button}.png',
-                     background_down=f'assest/icons/recover/{cl_button}.png', size_hint=(.1, .7),on_press=self.fr_recover)
+                     background_down=f'assest/icons/recover/{cl_button}.png',size=(dp(80),dp(80)),size_hint=(None,None),
+                      on_press=self.fr_recover)
         dbtn.id = ids
 
         xbtn = Button(background_normal=f'assest/icons/remove/{cl_button}.png',
-                     background_down=f'assest/icons/remove/{cl_button}.png', size_hint=(.1, .7),on_press=self.fr_remove)
+                     background_down=f'assest/icons/remove/{cl_button}.png',size=(dp(80),dp(80)),size_hint=(None,None),
+                      on_press=self.fr_remove)
         xbtn.id = ids
 
         nbtn = (Button(text=f"{getting_label}", font_size='30sp', background_color=cl_donecolor,
@@ -303,7 +305,7 @@ class Mainscreen(Screen):
             src = done
         self.add_widget(Button(background_normal=f'assest/icons/back/{cl_button}.png',
                                background_down=f'assest/icons/back/{cl_button}.png',size=(dp(80),dp(80)),size_hint=(None,None),
-                               pos_hint={"right": 1, "top": 1}, background_color=cl_button,on_press=self.editback))
+                               pos_hint={"right": 1, "top": 1},on_press=self.editback))
 
         self.labeltx = TextInput(hint_text=f"{src[todo_id][0]}",hint_text_color=cl_hintcolor,foreground_color=cl_foregroundcolor, halign='center', font_size='20sp',
                                  pos_hint={"right": 0.80, "top": 0.98},
@@ -365,7 +367,7 @@ class Mainscreen(Screen):
         self.clear_widgets()
         self.add_widget(Button(background_normal=f'assest/icons/back/{cl_button}.png',
                                background_down=f'assest/icons/back/{cl_button}.png',size=(dp(80),dp(80)),size_hint=(None,None),
-                               pos_hint={"right": 1, "top": 1},on_press=self.exit, background_color=cl_button))
+                               pos_hint={"right": 1, "top": 1},on_press=self.exit))
 
         self.labeltx = TextInput(hint_text="Enter the Label",hint_text_color=cl_hintcolor,foreground_color=cl_foregroundcolor, halign='center', font_size='20sp',
                                  pos_hint={"right": 0.80, "top": 0.98},
@@ -407,7 +409,7 @@ class Mainscreen(Screen):
 
         self.add_widget(Button(background_normal=f'assest/icons/save/{cl_button}.png',
                                background_down=f'assest/icons/save/{cl_button}.png',size=(dp(60),dp(60)),size_hint=(None,None),
-                               pos_hint={"right": 0.55, "top": 0.12},on_press=self.saveandexit, background_color=cl_button))
+                               pos_hint={"right": 0.55, "top": 0.12},on_press=self.saveandexit))
 
     def exit(self, instance):
         self.makegridscreen()
@@ -489,7 +491,8 @@ class TagGridlayout(GridLayout):
                        background_down=f'assest/icons/remove/{cl_button}.png')
         tdbtn.id = ids
         tdbtn.bind(on_press=self.fr_tagremove)
-        tnbtn = (Button(text=f"{getting_label}",font_size='30sp', background_color = cl_back, size_hint=(1, .7)))
+        tnbtn = (Button(text=f"{getting_label}",font_size='30sp',background_normal="",
+                        background_color = cl_back, size_hint=(1, .7)))
         tnbtn.id = ids
         tnbtn.bind(on_press=self.preparetoedit)
 
@@ -620,8 +623,7 @@ class Tagscreen(Screen):
         self.add_widget(Button(background_normal=f'assest/icons/save/{cl_button}.png',
                                background_down=f'assest/icons/save/{cl_button}.png', size=(dp(60), dp(60)),
                                size_hint=(None, None),
-                               pos_hint={"right": 0.55, "top": 0.12}, on_press=self.saveandexit,
-                               background_color=cl_button))
+                               pos_hint={"right": 0.55, "top": 0.12}, on_press=self.saveandexit))
 
     def exit(self, instance):
         self.makegridscreen()
