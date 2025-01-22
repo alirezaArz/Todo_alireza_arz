@@ -13,6 +13,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.graphics import Rectangle, Color
 from kivy.uix.pagelayout import PageLayout
 from kivy.uix.stacklayout import StackLayout
+from kivy.uix.togglebutton import ToggleButton
 from kivy.uix.textinput import TextInput
 import pickle
 from kivy.config import Config
@@ -117,7 +118,7 @@ foreground_color_save = ['white']
 done_color_save = ['salmon','salmon']
 
 cl_donecolor = 'salmon'
-cl_ground = []
+cl_ground = [0.039,0.809,0.812,0.300]
 cl_button = 'darkcyan'
 cl_back = 'darkcyan'
 cl_recover = 'lightblue'
@@ -125,18 +126,9 @@ cl_remove = 'tomato'
 cl_hintcolor = 'white'
 cl_foregroundcolor = 'oldlace'
 
-def theme(theme):
-    if theme == 'white':
-        cl_button = button_save[0]
-        cl_back = back_save[0]
-        cl_hintcolor = hint_text_save[0]
-        cl_foregroundcolor = foreground_color_save[0]
-        cl_donecolor = done_color_save[0]
-        cl_ground[:] = ground_save[0]
-        cl_recover = recover_save[0]
-        cl_remove = remove_save[0]
+def theme(theme_id):
+    print(theme_id)
 
-theme('white')
 
 #front end-----------------------------------------------------------------------------------------------------------------------------------------
 #main grid layout for main todos----------------------------------------------------------------------------------
@@ -664,12 +656,58 @@ class Settingscreen(Screen):
         self.add_widget(Button(background_normal='assest/icons/back/icon.png',
                            background_down='assest/icons/back/icon.png', size=(dp(80), dp(80)),
                            size_hint=(None, None),
-                           pos_hint={"right": 1, "top": 1}, on_press=self.goback,background_color=cl_button))
+                           pos_hint={"right": 1, "top": 1},on_press=self.goback,background_color=cl_button))
+        # apearance setting---------------------
+        self.aprence = BoxLayout()
+        self.aprence.orientation = 'horizontal'
+        self.aprence.size_hint_x = 0.6
+        self.aprence.size_hint_y = .1
+        self.aprence.pos_hint= {'right':0.62, 'top': 0.90}
+        self.add_widget(self.aprence)
+
+        self.add_widget(Label(text="appearance", color=cl_back,
+                              font_size='30sp', pos_hint={"right": 0.25, "top": 0.98}, size=(dp(200), dp(38)),
+                              size_hint=(None, None)))
+
+        ap1 = ToggleButton(text='Light',on_press=self.fr_theme, group='apprence', size=(0.2,1),
+                         pos_hint={"right": 1, "top": .90})
+        ap1.id = 1
+
+        ap2 = ToggleButton(text='Dark',on_press=self.fr_theme, group='apprence', size=(0.2,1),
+                         pos_hint={"right": 1, "top": .90})
+        ap2.id = 2
+
+        ap3 = ToggleButton(text='Forest',on_press=self.fr_theme, group='apprence', size=(0.2,1),
+                         pos_hint={"right": 1, "top": .90})
+        ap3.id = 3
+
+        ap4 = ToggleButton(text='sunset',on_press=self.fr_theme, group='apprence', size=(0.2,1),
+                         pos_hint={"right": 1, "top": .90})
+        ap4.id = 4
+
+        ap5 = ToggleButton(text='tomato',on_press=self.fr_theme,group='apprence',size=(0.2,1),
+                        pos_hint={"right": 1, "top": .90})
+        ap5.id = 5
+
+        self.aprence.add_widget(ap1)
+        self.aprence.add_widget(ap2)
+        self.aprence.add_widget(ap3)
+        self.aprence.add_widget(ap4)
+        self.aprence.add_widget(ap5)
+
+
+    def fr_theme(self, instance):
+        theme_id = instance.id
+        theme(theme_id)
+
     def goback(self,instance):
         app = App.get_running_app()
         app.sm.remove_widget(app.sm.get_screen('main'))
         app.sm.add_widget(Mainscreen(name='main'))
         self.manager.current = 'main'
+
+
+
 
 
 
