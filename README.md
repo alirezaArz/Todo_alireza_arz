@@ -1,4 +1,4 @@
-requerment:  Kivy==2.2.1
+requerment:  Kivy==2.2.1 or latest
 
 1. install kivy , better to be kivy==2.2.1
 2. make a folder in your directory
