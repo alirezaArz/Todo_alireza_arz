@@ -18,13 +18,50 @@ from kivy.uix.textinput import TextInput
 import pickle
 from kivy.config import Config
 
+
 #back end-------------------------------------------------------------------------------------------------------------------------------------------
 
 tags = []
 removed = []
 done = []
 todo = []
-combinated = [todo, tags, removed, done]
+
+#color containers-----------------
+
+button_save = [(0.2039, 0.2275, 0.2500, 1)
+,(0.4235, 0.4588, 0.4902, 1),(0.4667, 0.8941, 0.7843, 1),
+(0.5765, 0.3686, 0.2196, 1),(1.0, 0.1216, 0.5608, 1)
+]
+back_save = [(0.4235, 0.4588, 0.4902, 1)
+,(0.4235, 0.4588, 0.4902, 1),(0.0078, 0.7647, 0.6039, 1)
+,(0.4353, 0.3216, 0.2314, 1),(0.6667, 0.0667, 0.3333, 1)]
+
+remove_save = [(0.1294, 0.1451, 0.1608, 1)
+,'salmon','salmon',(0.8392, 0.1569, 0.1569, 1)
+,'salmon']
+recover_save = [(0.6784, 0.7098, 0.7412, 1)
+,'lightblue',(0.7176, 0.8941, 0.7804, 1),(0.7176, 0.4118, 0.2078, 1)
+,(1.0, 0.9333, 0.5333, 1)
+]
+
+ground_save = [(0.9725, 0.9765, 0.9804, 1),(0.2039, 0.2275, 0.2500, 1),
+    (0.0, 0.5451, 0.5451, 0.458),
+    (0.1490, 0.2353, 0.2549, 1),(0.2980, 0.0235, 0.1137, 1)]
+
+hint_text_save = ['white','white','white','white','white']
+foreground_color_save = ['white','white','white','white','white']
+done_color_save = ['salmon','salmon','salmon','salmon','salmon']
+
+cl_donecolor = ['black']
+cl_ground = [0.2039, 0.2275, 0.2500, 1]
+cl_button = [(0.4235, 0.4588, 0.4902, 1)]
+cl_back = [(0.4235, 0.4588, 0.4902, 1)]
+cl_recover = ['lightblue']
+cl_remove = ['tomato']
+cl_hintcolor = ['white']
+cl_foregroundcolor = ['oldlace']
+
+#main bk functions--------------------------
 
 def saveimport():
     try:
@@ -34,9 +71,17 @@ def saveimport():
             tags[:] = newdata[1]
             removed[:] = newdata[2]
             done[:] = newdata[3]
+            print(newdata[6])
+            cl_button[:] = newdata[4]
+            cl_back[:] = newdata[5]
+            cl_ground[:] = newdata[6][:]
+            cl_recover[:] = newdata[7]
+            cl_donecolor[:] = newdata[8]
+            cl_remove[:] = newdata[9]
     except (IndexError, FileNotFoundError):
         pass
 
+combinated = [todo, tags, removed, done, cl_button, cl_back, cl_ground, cl_recover, cl_donecolor, cl_remove]
 def savedexport():
     try:
         with open('savedDt.pdt', 'wb') as file:
@@ -106,40 +151,6 @@ def bk_savetagedits(id,label,description):
     savedexport()
 
 #color strategy---------------------------------------------------------
-button_save = [(0.2039, 0.2275, 0.2500, 1)
-,(0.4235, 0.4588, 0.4902, 1),(0.4667, 0.8941, 0.7843, 1),
-(0.5765, 0.3686, 0.2196, 1),(1.0, 0.1216, 0.5608, 1)
-]
-back_save = [(0.4235, 0.4588, 0.4902, 1)
-,(0.4235, 0.4588, 0.4902, 1),(0.0078, 0.7647, 0.6039, 1)
-,(0.4353, 0.3216, 0.2314, 1),(0.6667, 0.0667, 0.3333, 1)]
-
-remove_save = [(0.1294, 0.1451, 0.1608, 1)
-,'salmon','salmon',(0.8392, 0.1569, 0.1569, 1)
-,'salmon']
-recover_save = [(0.6784, 0.7098, 0.7412, 1)
-,'lightblue',(0.7176, 0.8941, 0.7804, 1),(0.7176, 0.4118, 0.2078, 1)
-,(1.0, 0.9333, 0.5333, 1)
-]
-
-ground_save = [(0.9725, 0.9765, 0.9804, 1),(0.2039, 0.2275, 0.2500, 1),
-    (0.0, 0.5451, 0.5451, 0.458),
-    (0.1490, 0.2353, 0.2549, 1),(0.2980, 0.0235, 0.1137, 1)
-
-]
-hint_text_save = ['white','white','white','white','white']
-foreground_color_save = ['white','white','white','white','white']
-done_color_save = ['salmon','salmon','salmon','salmon','salmon']
-
-cl_donecolor = ['black']
-cl_ground = [0.2039, 0.2275, 0.2500, 1]
-cl_button = [(0.4235, 0.4588, 0.4902, 1)]
-cl_back = [(0.4235, 0.4588, 0.4902, 1)]
-cl_recover = ['lightblue']
-cl_remove = ['tomato']
-cl_hintcolor = ['white']
-cl_foregroundcolor = ['oldlace']
-
 
 def theme(theme_id):
     cl_button[0] = button_save[theme_id]
@@ -259,6 +270,7 @@ class Mainscreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         #apearence
+        saveimport()
         with self.canvas:
             global cl_ground
             # screen color managment
@@ -266,6 +278,7 @@ class Mainscreen(Screen):
 
             self.rect = Rectangle(size=self.size, pos=self.pos)
         self.bind(size=self._update_rect, pos=self._update_rect)
+
     def _update_rect(self, *args):
         self.rect.size = self.size
         self.rect.pos = self.pos
@@ -548,12 +561,12 @@ class Tagscreen(Screen):
 
         self.add_widget(Button(background_normal='assest/icons/tag_add/icon.png',
             background_down='assest/icons/tag_add/icon.png', size=(dp(80), dp(80)),
-            size_hint=(None, None),pos_hint={"right": 0.90, "top": 1},background_color=cl_back[0],on_press=self.maketagresult))
+            size_hint=(None, None),pos_hint={"right": 0.90, "top": 1},background_color=cl_button[0],on_press=self.maketagresult))
 
         self.add_widget(Button(background_normal='assest/icons/back/icon.png',
                                background_down='assest/icons/back/icon.png', size=(dp(80), dp(80)),
                                size_hint=(None, None),
-                               pos_hint={"right": 1, "top": 1},background_color=cl_back[0],on_press=self.goback))
+                               pos_hint={"right": 1, "top": 1},background_color=cl_button[0],on_press=self.goback))
 
         self.tag_scroll = Scrolltag(self,self.manager)
         self.add_widget(self.tag_scroll)
@@ -723,6 +736,7 @@ class Settingscreen(Screen):
     def fr_theme(self, instance):
         theme_id = instance.id
         theme(theme_id)
+        savedexport()
 
 
 
