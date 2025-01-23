@@ -1,4 +1,3 @@
-from itertools import combinations
 from kivy.config import Config
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
@@ -21,6 +20,8 @@ from kivy.config import Config
 
 #back end-------------------------------------------------------------------------------------------------------------------------------------------
 
+
+#main containers
 tags = []
 removed = []
 done = []
@@ -61,7 +62,7 @@ cl_remove = ['tomato']
 cl_hintcolor = ['white']
 cl_foregroundcolor = ['oldlace']
 
-#main bk functions--------------------------
+#main backend functions--------------------------
 
 def saveimport():
     try:
@@ -166,7 +167,9 @@ def theme(theme_id):
     cl_remove[0] = remove_save[theme_id]
 
 #front end-----------------------------------------------------------------------------------------------------------------------------------------
-#main grid layout for main todos----------------------------------------------------------------------------------
+
+#main grid layout for main todos--------------------------------------------
+
 class MainGridlayout(GridLayout):
     def __init__(self,screen_manager,uppercl, **kwargs):
         super().__init__(**kwargs)
@@ -177,7 +180,8 @@ class MainGridlayout(GridLayout):
         self.uppercl = uppercl
         self.refreshmaking()
 
-# a function to remake the whole gridlayout and deletes the finished ones
+# function to remake the whole gridlayout and delete the finished ones
+
     def refreshmaking(self):
         self.clear_widgets()
         global todo
@@ -188,6 +192,7 @@ class MainGridlayout(GridLayout):
             self.donenew(object[0],done.index(object))
 
 #front finising function to pass the selected key and id to the backend
+
     def fr_tododone(self,instance):
         todo_id = instance.id
         bk_donetodos(todo_id)
@@ -207,11 +212,15 @@ class MainGridlayout(GridLayout):
         todo.append(object)
         savedexport()
         self.refreshmaking()
-#the todos editing part
+
+#the todos editing part----
+
     def preparetoedit(self,instance):
         todo_id = instance.id
         protocol = instance.protocol
         self.uppercl.edittodoresult(todo_id,protocol)
+
+#making the main todos front core------------
 
     def addnew(self,getting_label,ids):
         self.made_layout = BoxLayout()
@@ -241,7 +250,7 @@ class MainGridlayout(GridLayout):
         self.made_layout.size_y = dp(5)
         self.add_widget(self.made_layout)
 
-
+# move/ go up
 
     def go_up(self,instance):
         id = instance.id
@@ -258,6 +267,7 @@ class MainGridlayout(GridLayout):
             savedexport()
             self.refreshmaking()
 
+# move/ go down----
 
     def go_down(self,instance):
         id = instance.id
@@ -275,6 +285,7 @@ class MainGridlayout(GridLayout):
             savedexport()
             self.refreshmaking()
 
+# showing the 'done' todos and items-------
 
     def donenew(self, getting_label, ids):
         self.made_layout = BoxLayout()
@@ -302,7 +313,8 @@ class MainGridlayout(GridLayout):
         self.made_layout.size_y = dp(5)
         self.add_widget(self.made_layout)
 
-# main grid layout's scroll feature
+# main grid layout's scroll feature-------------
+
 class Scrollmain(ScrollView):
     def __init__(self, screen_manager,uppercl, **kwargs):
         super().__init__(**kwargs)
@@ -314,7 +326,8 @@ class Scrollmain(ScrollView):
         self.add_widget(self.maingrid)
         self.uppercl = uppercl
 
-# main screen
+# main screen----------------------------------------------------------------------------------------
+
 class Mainscreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -333,7 +346,9 @@ class Mainscreen(Screen):
         self.rect.pos = self.pos
         saveimport()
         self.refresh()
-        #-------------------------------------------------------------------------start coloring
+
+# refreshing the main screen--------------------------
+
     def refresh(self):
         self.clear_widgets()
         global cl_button
@@ -369,6 +384,7 @@ class Mainscreen(Screen):
         self.todo_scroll = Scrollmain(self,self.manager)
         self.add_widget(self.todo_scroll)
 
+# front/todos editing----------------------
 
     def edittodoresult(self,todo_id,protocol):
         self.clear_widgets()
@@ -427,6 +443,8 @@ class Mainscreen(Screen):
         self.savepool.id = todo_id
         self.add_widget(self.savepool)
 
+# saving and exiting functions----------------------------
+
     def saveback(self,instance):
         protocol = instance.protocol
         todo_id = instance.id
@@ -437,6 +455,7 @@ class Mainscreen(Screen):
         self.clear_widgets()
         self.makegridscreen()
 
+# main page of making the new todos (properties page)----------------
 
     def maketodoresult(self,instance):
         self.clear_widgets()
@@ -493,6 +512,8 @@ class Mainscreen(Screen):
         bk_addtodo(self.labeltx.text, self.descriptiontx.text, self.timetx.text, self.datetx.text, self.tagtx.text)
         self.makegridscreen()
 
+# making the naw main screen after changes---------------------------
+
     def makegridscreen(self):
         self.clear_widgets()
         global cl_button
@@ -511,6 +532,8 @@ class Mainscreen(Screen):
                                size_hint=(None, None),
                                pos_hint={"right": 1, "top": 1},
                                on_press=self.maketodoresult))
+
+#moving between pages----------------------
 
         def go_sc1(instance):
             app = App.get_running_app()
@@ -532,6 +555,8 @@ class Mainscreen(Screen):
 
 
 # tagscreen--------------------------------------------------------------------------------------------------
+
+#tagscreen's grid layout for showing tags
 
 class TagGridlayout(GridLayout):
     def __init__(self, screen_manager,uppercl, **kwargs):
@@ -578,6 +603,8 @@ class TagGridlayout(GridLayout):
         self.made_layout.size_y = dp(5)
         self.add_widget(self.made_layout)
 
+#tagscreen's scroll property -------------------------
+
 class Scrolltag(ScrollView):
     def __init__(self, screen_manager,uppercl, **kwargs):
         super().__init__(**kwargs)
@@ -589,6 +616,7 @@ class Scrolltag(ScrollView):
         self.taggrid.height = self.taggrid.minimum_height
         self.add_widget(self.taggrid)
 
+#main tag screen-----------------------------------------------------------------
 
 class Tagscreen(Screen):
     def __init__(self, **kwargs):
@@ -605,6 +633,8 @@ class Tagscreen(Screen):
         self.rect.pos = self.pos
         self.refresh()
 
+# tag screen's core refresh function-------------------
+
     def refresh(self):
         self.clear_widgets()
 
@@ -620,12 +650,15 @@ class Tagscreen(Screen):
         self.tag_scroll = Scrolltag(self,self.manager)
         self.add_widget(self.tag_scroll)
 
+# move to main screen----------------------------------------------------
+
     def goback(self, instance):
         app = App.get_running_app()
         app.sm.remove_widget(app.sm.get_screen('main'))
         app.sm.add_widget(Mainscreen(name='main'))
         self.manager.current = 'main'
 
+# editing the tags---------
 
     def edittagresult(self, tag_id):
         self.clear_widgets()
@@ -670,6 +703,8 @@ class Tagscreen(Screen):
         self.savepool.id = tag_id
         self.add_widget(self.savepool)
 
+# save and exit functions --------------
+
     def saveback(self, instance):
         tag_id = instance.id
         bk_savetagedits(tag_id, self.labeltx.text, self.descriptiontx.text)
@@ -678,6 +713,8 @@ class Tagscreen(Screen):
     def editback(self, instance):
         self.clear_widgets()
         self.makegridscreen()
+
+# property page of making the new tags---------------
 
     def maketagresult(self, instance):
         self.clear_widgets()
@@ -701,12 +738,16 @@ class Tagscreen(Screen):
                                size_hint=(None, None),
                                pos_hint={"right": 0.55, "top": 0.12},background_color=cl_button[0], on_press=self.saveandexit))
 
+# save and exit functions-----------
+
     def exit(self, instance):
         self.makegridscreen()
 
     def saveandexit(self, instance):
         bk_addtag(self.labeltx.text, self.descriptiontx.text)
         self.makegridscreen()
+
+#make the new core after changes--------------------------------
 
     def makegridscreen(self):
         self.clear_widgets()
@@ -722,6 +763,7 @@ class Tagscreen(Screen):
         self.add_widget(self.tag_scroll)
 
 # setting management-----------------------------------------------------------------------------------------
+
 class Settingscreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -737,14 +779,16 @@ class Settingscreen(Screen):
         self.rect.size = self.size
         self.rect.pos = self.pos
 
-
+# make the new setting screen after changes------------------------
 
     def makesettings(self):
         self.add_widget(Button(background_normal='assest/icons/back/icon.png',
                            background_down='assest/icons/back/icon.png', size=(dp(80), dp(80)),
                            size_hint=(None, None),
                            pos_hint={"right": 1, "top": 1},on_press=self.goback,background_color=cl_button[0]))
+
         # apearance setting---------------------
+
         self.aprence = BoxLayout()
         self.aprence.orientation = 'horizontal'
         self.aprence.size_hint_x = 0.6
@@ -782,11 +826,14 @@ class Settingscreen(Screen):
         self.aprence.add_widget(ap4)
         self.aprence.add_widget(ap5)
 
+#front theme  for preparing the backend's function-------
 
     def fr_theme(self, instance):
         theme_id = instance.id
         theme(theme_id)
         savedexport()
+
+#go back to main screen-----------
 
     def goback(self,instance):
         app = App.get_running_app()
@@ -794,7 +841,7 @@ class Settingscreen(Screen):
         app.sm.add_widget(Mainscreen(name='main'))
         self.manager.current = 'main'
 
-# main class-------------------------------------------------------------------------------------------------
+# main class and run-------------------------------------------------------------------------------------------------
 
 class TodoArz(App):
     def build(self):
