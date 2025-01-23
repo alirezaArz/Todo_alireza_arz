@@ -33,7 +33,7 @@ button_save = [(0.2039, 0.2275, 0.2500, 1)
 (0.5765, 0.3686, 0.2196, 1),(1.0, 0.1216, 0.5608, 1)
 ]
 back_save = [(0.4235, 0.4588, 0.4902, 1)
-,(0.4235, 0.4588, 0.4902, 1),(0.0078, 0.7647, 0.6039, 1)
+,(0.6784, 0.7098, 0.7411, 1),(0.0078, 0.7647, 0.6039, 1)
 ,(0.4353, 0.3216, 0.2314, 1),(0.6667, 0.0667, 0.3333, 1)]
 
 remove_save = [(0.1294, 0.1451, 0.1608, 1)
@@ -71,7 +71,6 @@ def saveimport():
             tags[:] = newdata[1]
             removed[:] = newdata[2]
             done[:] = newdata[3]
-            print(newdata[6])
             cl_button[:] = newdata[4]
             cl_back[:] = newdata[5]
             cl_ground[:] = newdata[6][:]
@@ -220,12 +219,58 @@ class MainGridlayout(GridLayout):
         nbtn.protocol = '1'
         nbtn.bind(on_press=self.preparetoedit)
 
+        movebox = BoxLayout()
+        movebox.orientation = 'vertical'
+        movebox.size_hint = (0.05,0.7)
+        moveup = Button(text='Up',color=cl_back[0],background_color=cl_button[0],background_normal='',bold=True, size =(1,1),on_press=self.go_up)
+        moveup.id = ids
+        movebox.add_widget(moveup)
+        movedown = Button(text='Dn',color=cl_back[0],bold=True,background_color=cl_button[0],background_normal='', size=(1, 1),on_press=self.go_down)
+        movedown.id = ids
+        movebox.add_widget(movedown)
+
         self.made_layout.add_widget(dbtn)
         self.made_layout.add_widget(nbtn)
+        self.made_layout.add_widget(movebox)
         self.made_layout.size_x = 1
         self.made_layout.size_hint_y = None
         self.made_layout.size_y = dp(5)
         self.add_widget(self.made_layout)
+
+
+
+    def go_up(self,instance):
+        id = instance.id
+        global todo
+        if 0 < id <= len(todo):
+            changing_item = todo.pop(id)
+            todo.insert(id-1, changing_item)
+            savedexport()
+            self.refreshmaking()
+
+        elif id == 0:
+            changing_item = todo.pop(id)
+            todo.insert(len(todo), changing_item)
+            savedexport()
+            self.refreshmaking()
+
+
+    def go_down(self,instance):
+        id = instance.id
+        global todo
+
+        if 0 <= id < (len(todo)-1):
+            changing_item = todo.pop(id)
+            todo.insert(id+1, changing_item)
+            savedexport()
+            self.refreshmaking()
+
+        elif id == (len(todo)-1):
+            changing_item = todo.pop(id)
+            todo.insert(0,changing_item)
+            savedexport()
+            self.refreshmaking()
+
 
     def donenew(self, getting_label, ids):
         self.made_layout = BoxLayout()
@@ -738,19 +783,11 @@ class Settingscreen(Screen):
         theme(theme_id)
         savedexport()
 
-
-
     def goback(self,instance):
         app = App.get_running_app()
         app.sm.remove_widget(app.sm.get_screen('main'))
         app.sm.add_widget(Mainscreen(name='main'))
         self.manager.current = 'main'
-
-
-
-
-
-
 
 # main class-------------------------------------------------------------------------------------------------
 
