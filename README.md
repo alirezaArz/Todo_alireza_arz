@@ -1,6 +1,6 @@
-requerment:  Kivy==2.2.1 or latest
+requerment:  Kivy latest vesion or kivy==2.2.1
 
 1. install kivy , better to be kivy==2.2.1
-2. make a folder in your directory
-3. copy the MainTodo.py , saveDt.pdt and assest folder in your folder
-4. enjoy!
+2. <a href='https://github.com/alirezaArz/Todo_alireza_arz/archive/refs/tags/release.zip'>download latest version</a>
+3. run MainTodo.py
+4. enjoy
