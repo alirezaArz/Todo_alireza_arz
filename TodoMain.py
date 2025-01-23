@@ -754,7 +754,7 @@ class Settingscreen(Screen):
 
 # main class-------------------------------------------------------------------------------------------------
 
-class Mainapp(App):
+class TodoArz(App):
     def build(self):
         self.sm = ScreenManager()
         self.sm.add_widget(Mainscreen(name="main"))
@@ -763,4 +763,4 @@ class Mainapp(App):
         return self.sm
 
 if __name__ == "__main__":
-    Mainapp().run()
+    TodoArz().run()
