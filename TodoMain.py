@@ -92,15 +92,19 @@ def savedexport():
 def bk_addtodo(label,description,time,date,tag):
     compound = [label,description,time,date,tag]
     todo.append(compound)
-    if tag != '':
-        b1 = 0
-        if tags == '':
-            b1 += 1
-        for object in tags:
-            if object[0] == tag:
+
+    for object in tag.split(','):
+        if object != '':
+            b1 = 0
+            if tags == '':
                 b1 += 1
-        if b1 == 0:
-            tags.append([tag, 'No description yet!'])
+            if object == ' ':
+                b1 += 1
+            for local in tags:
+                if local[0] == object:
+                    b1 += 1
+            if b1 == 0:
+                tags.append([object, 'No description yet!'])
     savedexport()
     stl = 0
     for oj in todo:
@@ -628,8 +632,9 @@ class Tagscreen(Screen):
         global todo
         todoamount = 0
         for objects in todo:
-            if tags[tag_id][0] == objects[4]:
-                todoamount += 1
+            for item in objects[4].split(','):
+                if tags[tag_id][0] == item:
+                    todoamount += 1
         if todoamount == 0:
             jm = f'There are no todos\ncurrently using this tag'
         elif todoamount == 1:
@@ -638,7 +643,7 @@ class Tagscreen(Screen):
             jm = f'there are {todoamount}\ntodos currently using this tag'
 
 
-        self.add_widget(Label(text=jm,color=cl_back, font_size='25sp',
+        self.add_widget(Label(text=jm,color=cl_back[0], font_size='25sp',
                         pos_hint={"right": 0.62, "top": 0.25},bold=True,
                         size=(dp(200), dp(38)), size_hint=(None, None)))
 
@@ -649,7 +654,7 @@ class Tagscreen(Screen):
 
         self.labeltx = TextInput(hint_text=f"{tags[tag_id][0]}",hint_text_color=cl_hintcolor[0],foreground_color=cl_foregroundcolor[0],
                                  halign='center', font_size='20sp',pos_hint={"right": 0.73, "top": 0.88},
-                                 size=(dp(400), dp(40)), size_hint=(None, None), background_color=cl_back, multiline=False)
+                                 size=(dp(400), dp(40)), size_hint=(None, None), background_color=cl_back[0], multiline=False)
         self.add_widget(self.labeltx)
 
         self.descriptiontx = TextInput(hint_text=f"{tags[tag_id][1]}",hint_text_color=cl_hintcolor[0],foreground_color=cl_foregroundcolor[0],
