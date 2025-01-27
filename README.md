@@ -1,14 +1,20 @@
 ```markdown
 # Todo Application by Alireza Arz
 
-A simple and functional **Todo List Application** written in Python. This project allows users to manage their tasks effectively, providing features such as adding, removing, and listing todos.
+A simple and frendly made Todo list made with python and Kivy library.
 
 ---
 
 ## Features
 - Add tasks to the todo list.
 - Remove tasks by their index.
+- mark tasks as done.
+- Add tags to task.
+- Add date , time and description to tasks.
+- Move tasks to up and down.
+- Change the theme within the setting.
 - Display all current tasks.
+- Display all current done tasks.
 - Save and load tasks from a file for persistence.
 
 ---
@@ -27,7 +33,11 @@ A simple and functional **Todo List Application** written in Python. This projec
    ```bash
    python --version
    ```
-4. Run the application:
+4. install the last version of Kivy library
+   ```bash
+   pip install kivy
+   ```
+5. Run the application:
    ```bash
    python TodoMain.py
    ```
@@ -35,29 +45,26 @@ A simple and functional **Todo List Application** written in Python. This projec
 ---
 
 ## Usage
+-Notice: There is a tutorial inside the app but.
 
-1. When you run the program, you'll see a menu with options to add, remove, or list todos.
-2. Follow the on-screen instructions to interact with the program.
-3. Tasks are automatically saved for later use.
-
----
-
-## Code Overview
-
-- `TodoMain.py`: The main script containing all the logic for the application.
-- Functions include:
-  - **add_task()**: Add a new task to the todo list.
-  - **remove_task()**: Remove a task by its index.
-  - **list_tasks()**: Display all current tasks.
+1. app contains buttons to add the task
+2. you can edit any part of any task when aver you want.
+3. you can bring a done task back to the process.
+4. Tasks are automatically saved for later use.
+5. Follow the on-screen instructions inside the app to see more details.
 
 ---
-
-## Future Improvements
-
-Here are some potential features that can enhance the application:
-- Add a graphical user interface (GUI).
-- Implement due dates and task priorities.
-- Support for categories or tags.
+## project structure
+Todo_alireza_arz/
+│
+├── app/
+│   ├── main.py           # Entry point of the application
+│   └── storage.pdt        # Handles saving and loading tasks (e.g., file I/O)
+│
+├── requirements.txt      # List of Python dependencies
+├── README.md             # Project overview, installation instructions, and usage
+├── LICENSE               # MIT license
+└── .gitignore            # There is no gitignore yet
 
 ---
 
@@ -90,4 +97,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Contact
 
 Created by [Alireza Arz](https://github.com/alirezaArz)
-```
+---
