@@ -52,21 +52,19 @@ A simple and frendly made Todo list made with python and Kivy library.
 3. you can bring a done task back to the process.
 4. Tasks are automatically saved for later use.
 5. Follow the on-screen instructions inside the app to see more details.
+# Project Structure
 
----
-## project structure
+```plaintext
 Todo_alireza_arz/
 │
 ├── app/
 │   ├── main.py           # Entry point of the application
-│   └── storage.pdt        # Handles saving and loading tasks (e.g., file I/O)
+│   └── storage.py        # Handles saving and loading tasks (e.g., file I/O)
 │
 ├── requirements.txt      # List of Python dependencies
 ├── README.md             # Project overview, installation instructions, and usage
 ├── LICENSE               # MIT license
 └── .gitignore            # There is no gitignore yet
-
----
 
 ## Contributing
 
