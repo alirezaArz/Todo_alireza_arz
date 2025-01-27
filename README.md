@@ -1,18 +1,18 @@
 ```markdown
 # Todo Application by Alireza Arz
 
-A simple and frendly made Todo list made with python and Kivy library.
+A simple and friendly made Todo list made with Python and the Kivy library.
 
 ---
 
 ## Features
 - Add tasks to the todo list.
 - Remove tasks by their index.
-- mark tasks as done.
-- Add tags to task.
-- Add date , time and description to tasks.
-- Move tasks to up and down.
-- Change the theme within the setting.
+- Mark tasks as done.
+- Add tags to tasks.
+- Add date, time, and description to tasks.
+- Move tasks up and down.
+- Change the theme within the settings.
 - Display all current tasks.
 - Display all current done tasks.
 - Save and load tasks from a file for persistence.
@@ -33,7 +33,7 @@ A simple and frendly made Todo list made with python and Kivy library.
    ```bash
    python --version
    ```
-4. install the last version of Kivy library
+4. Install the latest version of the Kivy library:
    ```bash
    pip install kivy
    ```
@@ -45,14 +45,17 @@ A simple and frendly made Todo list made with python and Kivy library.
 ---
 
 ## Usage
--Notice: There is a tutorial inside the app but.
-
-1. app contains buttons to add the task
-2. you can edit any part of any task when aver you want.
-3. you can bring a done task back to the process.
+- **Note**: There is a tutorial inside the app.
+  
+1. The app contains buttons to add tasks.
+2. You can edit any part of any task whenever you want.
+3. You can bring a completed task back to the process.
 4. Tasks are automatically saved for later use.
-5. Follow the on-screen instructions inside the app to see more details.
-# Project Structure
+5. Follow the on-screen instructions inside the app for more details.
+
+---
+
+## Project Structure
 
 ```plaintext
 Todo_alireza_arz/
@@ -65,6 +68,9 @@ Todo_alireza_arz/
 ├── README.md             # Project overview, installation instructions, and usage
 ├── LICENSE               # MIT license
 └── .gitignore            # There is no gitignore yet
+```
+
+---
 
 ## Contributing
 
@@ -95,4 +101,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Contact
 
 Created by [Alireza Arz](https://github.com/alirezaArz)
----
+```
