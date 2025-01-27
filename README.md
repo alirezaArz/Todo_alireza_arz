@@ -20,7 +20,7 @@ A simple and friendly made Todo list made with Python and the Kivy library.
 ---
 
 ## Installation
-
+```
 1. Clone the repository:
    ```bash
    git clone https://github.com/alirezaArz/Todo_alireza_arz.git
@@ -95,8 +95,6 @@ Contributions are welcome! To contribute:
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
 
 ## Contact
 
